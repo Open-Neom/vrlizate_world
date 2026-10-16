@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "org.example.garden",
+  "title": "Jardín de ejemplo",
+  "revision": "1.0.0",
+  "license": "Apache-2.0",
+  "gridId": "garden-local-12m-v1",
+  "cellSizeMeters": 12,
+  "origin": {"type": "local"},
+  "prototypes": ["openworld.tree"],
+  "regions": [
+    {
+      "x": 0,
+      "z": 0,
+      "entities": [
+        {
+          "id": "tree-001",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 3,
+          "yawRadians": 0,
+          "scale": 1.5
+        }
+      ]
+    }
+  ]
+}

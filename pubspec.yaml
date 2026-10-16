@@ -1,0 +1,12 @@
+name: vrlizate_world
+description: Bounded world coordinates, entity placement, and spatial queries for the VRlizate SDK.
+version: 0.1.0
+publish_to: none
+environment:
+  sdk: ^3.10.8
+dependencies:
+  archive: ^4.0.9
+  crypto: ^3.0.7
+dev_dependencies:
+  lints: ^5.1.1
+  test: ^1.25.15

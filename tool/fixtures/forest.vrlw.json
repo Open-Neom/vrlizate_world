@@ -1,0 +1,2021 @@
+{
+  "schemaVersion": 1,
+  "id": "openworld.forest",
+  "title": "Bosque por regiones",
+  "revision": "1.0.0",
+  "license": "Apache-2.0",
+  "gridId": "forest-local0-12m-v1",
+  "cellSizeMeters": 12,
+  "origin": {
+    "type": "local"
+  },
+  "prototypes": [
+    "openworld.tree"
+  ],
+  "regions": [
+    {
+      "x": -3,
+      "z": -3,
+      "entities": [
+        {
+          "id": "tree:-3:-3:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 2.4,
+          "scale": 1.8
+        },
+        {
+          "id": "tree:-3:-3:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 2.8,
+          "scale": 1.0
+        },
+        {
+          "id": "tree:-3:-3:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 3.2,
+          "scale": 1.2
+        },
+        {
+          "id": "tree:-3:-3:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 3.6,
+          "scale": 1.4
+        }
+      ]
+    },
+    {
+      "x": -3,
+      "z": -2,
+      "entities": [
+        {
+          "id": "tree:-3:-2:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 0.4,
+          "scale": 1.0
+        },
+        {
+          "id": "tree:-3:-2:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 0.8,
+          "scale": 1.2
+        },
+        {
+          "id": "tree:-3:-2:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 1.2,
+          "scale": 1.4
+        },
+        {
+          "id": "tree:-3:-2:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 1.6,
+          "scale": 1.6
+        }
+      ]
+    },
+    {
+      "x": -3,
+      "z": -1,
+      "entities": [
+        {
+          "id": "tree:-3:-1:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 4.0,
+          "scale": 1.2
+        },
+        {
+          "id": "tree:-3:-1:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 4.4,
+          "scale": 1.4
+        },
+        {
+          "id": "tree:-3:-1:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 0.0,
+          "scale": 1.6
+        },
+        {
+          "id": "tree:-3:-1:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 0.4,
+          "scale": 1.8
+        }
+      ]
+    },
+    {
+      "x": -3,
+      "z": 0,
+      "entities": [
+        {
+          "id": "tree:-3:0:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 3.6,
+          "scale": 1.4
+        },
+        {
+          "id": "tree:-3:0:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 4.0,
+          "scale": 1.6
+        },
+        {
+          "id": "tree:-3:0:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 4.4,
+          "scale": 1.8
+        },
+        {
+          "id": "tree:-3:0:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 0.0,
+          "scale": 1.0
+        }
+      ]
+    },
+    {
+      "x": -3,
+      "z": 1,
+      "entities": [
+        {
+          "id": "tree:-3:1:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 4.0,
+          "scale": 1.6
+        },
+        {
+          "id": "tree:-3:1:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 4.4,
+          "scale": 1.8
+        },
+        {
+          "id": "tree:-3:1:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 0.0,
+          "scale": 1.0
+        },
+        {
+          "id": "tree:-3:1:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 0.4,
+          "scale": 1.2
+        }
+      ]
+    },
+    {
+      "x": -3,
+      "z": 2,
+      "entities": [
+        {
+          "id": "tree:-3:2:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 0.4,
+          "scale": 1.8
+        },
+        {
+          "id": "tree:-3:2:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 0.8,
+          "scale": 1.0
+        },
+        {
+          "id": "tree:-3:2:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 1.2,
+          "scale": 1.2
+        },
+        {
+          "id": "tree:-3:2:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 1.6,
+          "scale": 1.4
+        }
+      ]
+    },
+    {
+      "x": -3,
+      "z": 3,
+      "entities": [
+        {
+          "id": "tree:-3:3:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 2.4,
+          "scale": 1.0
+        },
+        {
+          "id": "tree:-3:3:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 2.8,
+          "scale": 1.2
+        },
+        {
+          "id": "tree:-3:3:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 3.2,
+          "scale": 1.4
+        },
+        {
+          "id": "tree:-3:3:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 3.6,
+          "scale": 1.6
+        }
+      ]
+    },
+    {
+      "x": -2,
+      "z": -3,
+      "entities": [
+        {
+          "id": "tree:-2:-3:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 0.4,
+          "scale": 1.0
+        },
+        {
+          "id": "tree:-2:-3:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 0.8,
+          "scale": 1.2
+        },
+        {
+          "id": "tree:-2:-3:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 1.2,
+          "scale": 1.4
+        },
+        {
+          "id": "tree:-2:-3:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 1.6,
+          "scale": 1.6
+        }
+      ]
+    },
+    {
+      "x": -2,
+      "z": -2,
+      "entities": [
+        {
+          "id": "tree:-2:-2:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 3.2,
+          "scale": 1.2
+        },
+        {
+          "id": "tree:-2:-2:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 3.6,
+          "scale": 1.4
+        },
+        {
+          "id": "tree:-2:-2:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 4.0,
+          "scale": 1.6
+        },
+        {
+          "id": "tree:-2:-2:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 4.4,
+          "scale": 1.8
+        }
+      ]
+    },
+    {
+      "x": -2,
+      "z": -1,
+      "entities": [
+        {
+          "id": "tree:-2:-1:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 2.0,
+          "scale": 1.4
+        },
+        {
+          "id": "tree:-2:-1:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 2.4,
+          "scale": 1.6
+        },
+        {
+          "id": "tree:-2:-1:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 2.8,
+          "scale": 1.8
+        },
+        {
+          "id": "tree:-2:-1:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 3.2,
+          "scale": 1.0
+        }
+      ]
+    },
+    {
+      "x": -2,
+      "z": 0,
+      "entities": [
+        {
+          "id": "tree:-2:0:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 1.6,
+          "scale": 1.6
+        },
+        {
+          "id": "tree:-2:0:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 2.0,
+          "scale": 1.8
+        },
+        {
+          "id": "tree:-2:0:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 2.4,
+          "scale": 1.0
+        },
+        {
+          "id": "tree:-2:0:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 2.8,
+          "scale": 1.2
+        }
+      ]
+    },
+    {
+      "x": -2,
+      "z": 1,
+      "entities": [
+        {
+          "id": "tree:-2:1:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 2.0,
+          "scale": 1.8
+        },
+        {
+          "id": "tree:-2:1:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 2.4,
+          "scale": 1.0
+        },
+        {
+          "id": "tree:-2:1:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 2.8,
+          "scale": 1.2
+        },
+        {
+          "id": "tree:-2:1:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 3.2,
+          "scale": 1.4
+        }
+      ]
+    },
+    {
+      "x": -2,
+      "z": 2,
+      "entities": [
+        {
+          "id": "tree:-2:2:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 3.2,
+          "scale": 1.0
+        },
+        {
+          "id": "tree:-2:2:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 3.6,
+          "scale": 1.2
+        },
+        {
+          "id": "tree:-2:2:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 4.0,
+          "scale": 1.4
+        },
+        {
+          "id": "tree:-2:2:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 4.4,
+          "scale": 1.6
+        }
+      ]
+    },
+    {
+      "x": -2,
+      "z": 3,
+      "entities": [
+        {
+          "id": "tree:-2:3:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 0.4,
+          "scale": 1.2
+        },
+        {
+          "id": "tree:-2:3:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 0.8,
+          "scale": 1.4
+        },
+        {
+          "id": "tree:-2:3:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 1.2,
+          "scale": 1.6
+        },
+        {
+          "id": "tree:-2:3:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 1.6,
+          "scale": 1.8
+        }
+      ]
+    },
+    {
+      "x": -1,
+      "z": -3,
+      "entities": [
+        {
+          "id": "tree:-1:-3:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 4.0,
+          "scale": 1.2
+        },
+        {
+          "id": "tree:-1:-3:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 4.4,
+          "scale": 1.4
+        },
+        {
+          "id": "tree:-1:-3:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 0.0,
+          "scale": 1.6
+        },
+        {
+          "id": "tree:-1:-3:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 0.4,
+          "scale": 1.8
+        }
+      ]
+    },
+    {
+      "x": -1,
+      "z": -2,
+      "entities": [
+        {
+          "id": "tree:-1:-2:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 2.0,
+          "scale": 1.4
+        },
+        {
+          "id": "tree:-1:-2:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 2.4,
+          "scale": 1.6
+        },
+        {
+          "id": "tree:-1:-2:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 2.8,
+          "scale": 1.8
+        },
+        {
+          "id": "tree:-1:-2:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 3.2,
+          "scale": 1.0
+        }
+      ]
+    },
+    {
+      "x": -1,
+      "z": -1,
+      "entities": [
+        {
+          "id": "tree:-1:-1:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 0.8,
+          "scale": 1.6
+        },
+        {
+          "id": "tree:-1:-1:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 1.2,
+          "scale": 1.8
+        },
+        {
+          "id": "tree:-1:-1:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 1.6,
+          "scale": 1.0
+        }
+      ]
+    },
+    {
+      "x": -1,
+      "z": 0,
+      "entities": [
+        {
+          "id": "tree:-1:0:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 0.4,
+          "scale": 1.8
+        },
+        {
+          "id": "tree:-1:0:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 1.2,
+          "scale": 1.2
+        }
+      ]
+    },
+    {
+      "x": -1,
+      "z": 1,
+      "entities": [
+        {
+          "id": "tree:-1:1:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 0.8,
+          "scale": 1.0
+        },
+        {
+          "id": "tree:-1:1:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 1.2,
+          "scale": 1.2
+        },
+        {
+          "id": "tree:-1:1:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 1.6,
+          "scale": 1.4
+        },
+        {
+          "id": "tree:-1:1:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 2.0,
+          "scale": 1.6
+        }
+      ]
+    },
+    {
+      "x": -1,
+      "z": 2,
+      "entities": [
+        {
+          "id": "tree:-1:2:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 2.0,
+          "scale": 1.2
+        },
+        {
+          "id": "tree:-1:2:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 2.4,
+          "scale": 1.4
+        },
+        {
+          "id": "tree:-1:2:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 2.8,
+          "scale": 1.6
+        },
+        {
+          "id": "tree:-1:2:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 3.2,
+          "scale": 1.8
+        }
+      ]
+    },
+    {
+      "x": -1,
+      "z": 3,
+      "entities": [
+        {
+          "id": "tree:-1:3:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 4.0,
+          "scale": 1.4
+        },
+        {
+          "id": "tree:-1:3:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 4.4,
+          "scale": 1.6
+        },
+        {
+          "id": "tree:-1:3:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 0.0,
+          "scale": 1.8
+        },
+        {
+          "id": "tree:-1:3:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 0.4,
+          "scale": 1.0
+        }
+      ]
+    },
+    {
+      "x": 0,
+      "z": -3,
+      "entities": [
+        {
+          "id": "tree:0:-3:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 3.6,
+          "scale": 1.4
+        },
+        {
+          "id": "tree:0:-3:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 4.0,
+          "scale": 1.6
+        },
+        {
+          "id": "tree:0:-3:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 4.4,
+          "scale": 1.8
+        },
+        {
+          "id": "tree:0:-3:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 0.0,
+          "scale": 1.0
+        }
+      ]
+    },
+    {
+      "x": 0,
+      "z": -2,
+      "entities": [
+        {
+          "id": "tree:0:-2:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 1.6,
+          "scale": 1.6
+        },
+        {
+          "id": "tree:0:-2:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 2.0,
+          "scale": 1.8
+        },
+        {
+          "id": "tree:0:-2:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 2.4,
+          "scale": 1.0
+        },
+        {
+          "id": "tree:0:-2:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 2.8,
+          "scale": 1.2
+        }
+      ]
+    },
+    {
+      "x": 0,
+      "z": -1,
+      "entities": [
+        {
+          "id": "tree:0:-1:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 0.4,
+          "scale": 1.8
+        },
+        {
+          "id": "tree:0:-1:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 0.8,
+          "scale": 1.0
+        },
+        {
+          "id": "tree:0:-1:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 1.6,
+          "scale": 1.4
+        }
+      ]
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "entities": [
+        {
+          "id": "tree:0:0:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 0.4,
+          "scale": 1.2
+        },
+        {
+          "id": "tree:0:0:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 1.2,
+          "scale": 1.6
+        }
+      ]
+    },
+    {
+      "x": 0,
+      "z": 1,
+      "entities": [
+        {
+          "id": "tree:0:1:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 0.4,
+          "scale": 1.2
+        },
+        {
+          "id": "tree:0:1:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 0.8,
+          "scale": 1.4
+        },
+        {
+          "id": "tree:0:1:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 1.2,
+          "scale": 1.6
+        },
+        {
+          "id": "tree:0:1:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 1.6,
+          "scale": 1.8
+        }
+      ]
+    },
+    {
+      "x": 0,
+      "z": 2,
+      "entities": [
+        {
+          "id": "tree:0:2:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 1.6,
+          "scale": 1.4
+        },
+        {
+          "id": "tree:0:2:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 2.0,
+          "scale": 1.6
+        },
+        {
+          "id": "tree:0:2:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 2.4,
+          "scale": 1.8
+        },
+        {
+          "id": "tree:0:2:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 2.8,
+          "scale": 1.0
+        }
+      ]
+    },
+    {
+      "x": 0,
+      "z": 3,
+      "entities": [
+        {
+          "id": "tree:0:3:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 3.6,
+          "scale": 1.6
+        },
+        {
+          "id": "tree:0:3:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 4.0,
+          "scale": 1.8
+        },
+        {
+          "id": "tree:0:3:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 4.4,
+          "scale": 1.0
+        },
+        {
+          "id": "tree:0:3:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 0.0,
+          "scale": 1.2
+        }
+      ]
+    },
+    {
+      "x": 1,
+      "z": -3,
+      "entities": [
+        {
+          "id": "tree:1:-3:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 4.0,
+          "scale": 1.6
+        },
+        {
+          "id": "tree:1:-3:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 4.4,
+          "scale": 1.8
+        },
+        {
+          "id": "tree:1:-3:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 0.0,
+          "scale": 1.0
+        },
+        {
+          "id": "tree:1:-3:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 0.4,
+          "scale": 1.2
+        }
+      ]
+    },
+    {
+      "x": 1,
+      "z": -2,
+      "entities": [
+        {
+          "id": "tree:1:-2:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 2.0,
+          "scale": 1.8
+        },
+        {
+          "id": "tree:1:-2:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 2.4,
+          "scale": 1.0
+        },
+        {
+          "id": "tree:1:-2:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 2.8,
+          "scale": 1.2
+        },
+        {
+          "id": "tree:1:-2:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 3.2,
+          "scale": 1.4
+        }
+      ]
+    },
+    {
+      "x": 1,
+      "z": -1,
+      "entities": [
+        {
+          "id": "tree:1:-1:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 0.8,
+          "scale": 1.0
+        },
+        {
+          "id": "tree:1:-1:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 1.2,
+          "scale": 1.2
+        },
+        {
+          "id": "tree:1:-1:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 1.6,
+          "scale": 1.4
+        },
+        {
+          "id": "tree:1:-1:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 2.0,
+          "scale": 1.6
+        }
+      ]
+    },
+    {
+      "x": 1,
+      "z": 0,
+      "entities": [
+        {
+          "id": "tree:1:0:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 0.4,
+          "scale": 1.2
+        },
+        {
+          "id": "tree:1:0:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 0.8,
+          "scale": 1.4
+        },
+        {
+          "id": "tree:1:0:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 1.2,
+          "scale": 1.6
+        },
+        {
+          "id": "tree:1:0:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 1.6,
+          "scale": 1.8
+        }
+      ]
+    },
+    {
+      "x": 1,
+      "z": 1,
+      "entities": [
+        {
+          "id": "tree:1:1:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 0.8,
+          "scale": 1.4
+        },
+        {
+          "id": "tree:1:1:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 1.2,
+          "scale": 1.6
+        },
+        {
+          "id": "tree:1:1:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 1.6,
+          "scale": 1.8
+        },
+        {
+          "id": "tree:1:1:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 2.0,
+          "scale": 1.0
+        }
+      ]
+    },
+    {
+      "x": 1,
+      "z": 2,
+      "entities": [
+        {
+          "id": "tree:1:2:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 2.0,
+          "scale": 1.6
+        },
+        {
+          "id": "tree:1:2:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 2.4,
+          "scale": 1.8
+        },
+        {
+          "id": "tree:1:2:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 2.8,
+          "scale": 1.0
+        },
+        {
+          "id": "tree:1:2:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 3.2,
+          "scale": 1.2
+        }
+      ]
+    },
+    {
+      "x": 1,
+      "z": 3,
+      "entities": [
+        {
+          "id": "tree:1:3:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 4.0,
+          "scale": 1.8
+        },
+        {
+          "id": "tree:1:3:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 4.4,
+          "scale": 1.0
+        },
+        {
+          "id": "tree:1:3:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 0.0,
+          "scale": 1.2
+        },
+        {
+          "id": "tree:1:3:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 0.4,
+          "scale": 1.4
+        }
+      ]
+    },
+    {
+      "x": 2,
+      "z": -3,
+      "entities": [
+        {
+          "id": "tree:2:-3:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 0.4,
+          "scale": 1.8
+        },
+        {
+          "id": "tree:2:-3:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 0.8,
+          "scale": 1.0
+        },
+        {
+          "id": "tree:2:-3:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 1.2,
+          "scale": 1.2
+        },
+        {
+          "id": "tree:2:-3:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 1.6,
+          "scale": 1.4
+        }
+      ]
+    },
+    {
+      "x": 2,
+      "z": -2,
+      "entities": [
+        {
+          "id": "tree:2:-2:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 3.2,
+          "scale": 1.0
+        },
+        {
+          "id": "tree:2:-2:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 3.6,
+          "scale": 1.2
+        },
+        {
+          "id": "tree:2:-2:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 4.0,
+          "scale": 1.4
+        },
+        {
+          "id": "tree:2:-2:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 4.4,
+          "scale": 1.6
+        }
+      ]
+    },
+    {
+      "x": 2,
+      "z": -1,
+      "entities": [
+        {
+          "id": "tree:2:-1:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 2.0,
+          "scale": 1.2
+        },
+        {
+          "id": "tree:2:-1:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 2.4,
+          "scale": 1.4
+        },
+        {
+          "id": "tree:2:-1:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 2.8,
+          "scale": 1.6
+        },
+        {
+          "id": "tree:2:-1:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 3.2,
+          "scale": 1.8
+        }
+      ]
+    },
+    {
+      "x": 2,
+      "z": 0,
+      "entities": [
+        {
+          "id": "tree:2:0:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 1.6,
+          "scale": 1.4
+        },
+        {
+          "id": "tree:2:0:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 2.0,
+          "scale": 1.6
+        },
+        {
+          "id": "tree:2:0:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 2.4,
+          "scale": 1.8
+        },
+        {
+          "id": "tree:2:0:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 2.8,
+          "scale": 1.0
+        }
+      ]
+    },
+    {
+      "x": 2,
+      "z": 1,
+      "entities": [
+        {
+          "id": "tree:2:1:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 2.0,
+          "scale": 1.6
+        },
+        {
+          "id": "tree:2:1:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 2.4,
+          "scale": 1.8
+        },
+        {
+          "id": "tree:2:1:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 2.8,
+          "scale": 1.0
+        },
+        {
+          "id": "tree:2:1:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 3.2,
+          "scale": 1.2
+        }
+      ]
+    },
+    {
+      "x": 2,
+      "z": 2,
+      "entities": [
+        {
+          "id": "tree:2:2:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 3.2,
+          "scale": 1.8
+        },
+        {
+          "id": "tree:2:2:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 3.6,
+          "scale": 1.0
+        },
+        {
+          "id": "tree:2:2:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 4.0,
+          "scale": 1.2
+        },
+        {
+          "id": "tree:2:2:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 4.4,
+          "scale": 1.4
+        }
+      ]
+    },
+    {
+      "x": 2,
+      "z": 3,
+      "entities": [
+        {
+          "id": "tree:2:3:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 0.4,
+          "scale": 1.0
+        },
+        {
+          "id": "tree:2:3:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 0.8,
+          "scale": 1.2
+        },
+        {
+          "id": "tree:2:3:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 1.2,
+          "scale": 1.4
+        },
+        {
+          "id": "tree:2:3:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 1.6,
+          "scale": 1.6
+        }
+      ]
+    },
+    {
+      "x": 3,
+      "z": -3,
+      "entities": [
+        {
+          "id": "tree:3:-3:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 2.4,
+          "scale": 1.0
+        },
+        {
+          "id": "tree:3:-3:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 2.8,
+          "scale": 1.2
+        },
+        {
+          "id": "tree:3:-3:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 3.2,
+          "scale": 1.4
+        },
+        {
+          "id": "tree:3:-3:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 3.6,
+          "scale": 1.6
+        }
+      ]
+    },
+    {
+      "x": 3,
+      "z": -2,
+      "entities": [
+        {
+          "id": "tree:3:-2:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 0.4,
+          "scale": 1.2
+        },
+        {
+          "id": "tree:3:-2:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 0.8,
+          "scale": 1.4
+        },
+        {
+          "id": "tree:3:-2:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 1.2,
+          "scale": 1.6
+        },
+        {
+          "id": "tree:3:-2:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 1.6,
+          "scale": 1.8
+        }
+      ]
+    },
+    {
+      "x": 3,
+      "z": -1,
+      "entities": [
+        {
+          "id": "tree:3:-1:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 4.0,
+          "scale": 1.4
+        },
+        {
+          "id": "tree:3:-1:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 4.4,
+          "scale": 1.6
+        },
+        {
+          "id": "tree:3:-1:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 0.0,
+          "scale": 1.8
+        },
+        {
+          "id": "tree:3:-1:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 0.4,
+          "scale": 1.0
+        }
+      ]
+    },
+    {
+      "x": 3,
+      "z": 0,
+      "entities": [
+        {
+          "id": "tree:3:0:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 3.6,
+          "scale": 1.6
+        },
+        {
+          "id": "tree:3:0:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 4.0,
+          "scale": 1.8
+        },
+        {
+          "id": "tree:3:0:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 4.4,
+          "scale": 1.0
+        },
+        {
+          "id": "tree:3:0:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 0.0,
+          "scale": 1.2
+        }
+      ]
+    },
+    {
+      "x": 3,
+      "z": 1,
+      "entities": [
+        {
+          "id": "tree:3:1:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 4.0,
+          "scale": 1.8
+        },
+        {
+          "id": "tree:3:1:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 4.4,
+          "scale": 1.0
+        },
+        {
+          "id": "tree:3:1:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 0.0,
+          "scale": 1.2
+        },
+        {
+          "id": "tree:3:1:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 0.4,
+          "scale": 1.4
+        }
+      ]
+    },
+    {
+      "x": 3,
+      "z": 2,
+      "entities": [
+        {
+          "id": "tree:3:2:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 0.4,
+          "scale": 1.0
+        },
+        {
+          "id": "tree:3:2:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 0.8,
+          "scale": 1.2
+        },
+        {
+          "id": "tree:3:2:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 1.2,
+          "scale": 1.4
+        },
+        {
+          "id": "tree:3:2:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 1.6,
+          "scale": 1.6
+        }
+      ]
+    },
+    {
+      "x": 3,
+      "z": 3,
+      "entities": [
+        {
+          "id": "tree:3:3:0",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 2.4,
+          "scale": 1.2
+        },
+        {
+          "id": "tree:3:3:1",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 2,
+          "yawRadians": 2.8,
+          "scale": 1.4
+        },
+        {
+          "id": "tree:3:3:2",
+          "prototypeId": "openworld.tree",
+          "x": 2,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 3.2,
+          "scale": 1.6
+        },
+        {
+          "id": "tree:3:3:3",
+          "prototypeId": "openworld.tree",
+          "x": 8,
+          "y": 0,
+          "z": 8,
+          "yawRadians": 3.6,
+          "scale": 1.8
+        }
+      ]
+    }
+  ]
+}
