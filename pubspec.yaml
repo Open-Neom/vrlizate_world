@@ -1,7 +1,7 @@
 name: vrlizate_world
-description: Bounded world coordinates, entity placement, and spatial queries for the VRlizate SDK.
-version: 0.1.0
-publish_to: none
+description: Bounded world coordinates, entity placement, portal links, and spatial queries for the VRlizate SDK.
+version: 1.0.0
+repository: https://github.com/Open-Neom/vrlizate_world
 environment:
   sdk: ^3.10.8
 dependencies:

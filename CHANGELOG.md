@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.0
+
+- Architecture refactor to Open Neom standard layout (`lib/utils/constants/`, `lib/utils/enums/`, `lib/domain/models/`, `lib/domain/services/`) with one class or enum per file and centralized constants (`VrWorldConstants`).
+- Add `VrWorldEnvironmentPreset` (`daylight`, `nightSky`, `cyberpunkNeon`, `studioNeutral`, `sunsetHorizon`, `deepSpace`) with factory converters to `VrlwEnvironmentSpec`.
+- Add `VrPortalLink` for inter-world/inter-instance portal teleports with activation radius checks.
+- Add `VrWorldBuilder` for fluent declarative construction of a `VrWorldRegistry` and `.vrlw` bundle metadata/chunks.
+- Preserve 100% backward-compatible barrel exports under `lib/src/` and `lib/vrlizate_world.dart`.
+
 ## 0.1.0 — Unreleased
 
 - Schedule large region decoding in a native isolate with bounded codec output, cancellation/close checks and inline web fallback; keep small regions inline.

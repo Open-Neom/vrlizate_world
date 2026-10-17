@@ -4,5 +4,8 @@
 /// point remains independent of `dart:io`.
 library;
 
-export 'src/storage/region_disk_cache.dart';
+export 'domain/models/vr_region_disk_cache_stats.dart';
+export 'domain/services/vr_region_disk_cache.dart';
+export 'domain/services/vrlw_file_source.dart';
 export 'src/bundles/vrlw_file_source.dart';
+export 'src/storage/region_disk_cache.dart';
