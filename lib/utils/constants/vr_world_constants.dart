@@ -72,6 +72,27 @@ abstract final class VrWorldConstants {
   static const double maxPortalTriggerRadiusMeters = 1000.0;
   static const int maxPortalLabelLength = 160;
 
+  static const String sharedSpaceUriScheme = 'vrlizate';
+  static const String sharedSpaceUriHost = 'space';
+  static const String sharedSpaceCodePrefix = 'VRLZ-SPACE-';
+  static const double minRoomDimensionMeters = 0.5;
+  static const double maxRoomDimensionMeters = 500.0;
+  static const double defaultRoomWidthMeters = 3.0;
+  static const double defaultRoomDepthMeters = 3.0;
+  static const double fullCircleDegrees = 360.0;
+  static const int maxHostDisplayNameLength = 64;
+
+  static const String keyAnchorId = 'anchorId';
+  static const String keyWorldId = 'worldId';
+  static const String keyOriginX = 'ox';
+  static const String keyOriginY = 'oy';
+  static const String keyOriginZ = 'oz';
+  static const String keyCompassHeadingDegrees = 'heading';
+  static const String keyRoomWidthMeters = 'rw';
+  static const String keyRoomDepthMeters = 'rd';
+  static const String keyHostDisplayName = 'host';
+  static const String keyCreatedAtEpochMs = 'ts';
+
   static const String paramWorldId = 'worldId';
   static const String paramInstanceId = 'instanceId';
   static const String paramId = 'id';
@@ -97,6 +118,12 @@ abstract final class VrWorldConstants {
   static const String paramLabel = 'label';
   static const String paramSourceWorld = 'sourceWorld';
   static const String paramTargetWorld = 'targetWorld';
+  static const String paramAnchorId = 'anchorId';
+  static const String paramCompassHeadingDegrees = 'compassHeadingDegrees';
+  static const String paramRoomWidthMeters = 'roomWidthMeters';
+  static const String paramRoomDepthMeters = 'roomDepthMeters';
+  static const String paramHostDisplayName = 'hostDisplayName';
+  static const String paramCreatedAtEpochMs = 'createdAtEpochMs';
 
   static const String errInvalidIdentifier =
       'Expected 1–128 ASCII letters/digits/dot/underscore/colon/hyphen, '
@@ -128,4 +155,13 @@ abstract final class VrWorldConstants {
       'Portal label must be non-empty and <= 160 characters.';
   static const String errPortalSameWorld =
       'Portal targetWorld must differ from sourceWorld.';
+  static const String errRoomDimensionRange =
+      'Room dimension must be finite and between 0.5 and 500.0 meters.';
+  static const String errHostDisplayName =
+      'Host display name must be non-empty and <= 64 characters.';
+  static const String errCreatedAtEpochMs = 'Timestamp must be >= 0.';
+  static const String errInvalidSharedSpaceUri =
+      'Invalid VRlizate shared space URI.';
+  static const String errInvalidSharedSpaceCode =
+      'Invalid VRLZ-SPACE share code.';
 }
