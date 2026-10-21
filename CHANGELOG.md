@@ -1,8 +1,9 @@
 # Changelog
 
-## 1.0.0
+## 1.0.0 - 2026-10-20
 
 - Architecture refactor to Open Neom standard layout (`lib/utils/constants/`, `lib/utils/enums/`, `lib/domain/models/`, `lib/domain/services/`) with one class or enum per file and centralized constants (`VrWorldConstants`).
+- Add `VrSharedSpaceAnchor` and `VrSharedSpaceCodec` (`vrlizate://space/...` URI and `VRLZ-SPACE:` share codes) for zero-server peer-to-peer co-located physical/virtual space alignment (`alignPeerPosition`).
 - Add `VrWorldEnvironmentPreset` (`daylight`, `nightSky`, `cyberpunkNeon`, `studioNeutral`, `sunsetHorizon`, `deepSpace`) with factory converters to `VrlwEnvironmentSpec`.
 - Add `VrPortalLink` for inter-world/inter-instance portal teleports with activation radius checks.
 - Add `VrWorldBuilder` for fluent declarative construction of a `VrWorldRegistry` and `.vrlw` bundle metadata/chunks.
