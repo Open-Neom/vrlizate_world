@@ -16,6 +16,8 @@ import '../models/vrlw_bundle_index.dart';
 import '../models/vrlw_chunk_index.dart';
 import '../models/vrlw_collider_spec.dart';
 import '../models/vrlw_environment_spec.dart';
+import '../models/vrlw_interaction_spec.dart';
+import '../models/vrlw_motion_spec.dart';
 import '../models/vrlw_prototype_binding.dart';
 import '../models/vrlw_resource_index.dart';
 import '../models/vrlw_world_dependency.dart';
@@ -63,8 +65,28 @@ abstract final class VrlwBundleCodec {
   static const maxCompressedTextureDimension =
       VrWorldConstants.vrlwMaxCompressedTextureDimension;
   static const maxAudioEmitters = VrWorldConstants.vrlwMaxAudioEmitters;
+  static const maxMotions = VrWorldConstants.vrlwMaxMotions;
+  static const maxInteractions = VrWorldConstants.vrlwMaxInteractions;
   static const maxDependencies = VrWorldConstants.vrlwMaxDependencies;
   static const _magic = VrWorldConstants.vrlwMagic;
+
+  /// Shared PNG preflight for standalone textures and embedded GLB images.
+  /// The complete profile checks chunks/CRCs and bounded scanline inflation,
+  /// admitting only static, non-interlaced RGB8/RGBA8. Pixel reconstruction and
+  /// color conversion still belong to the renderer, not this container codec.
+  static ({int width, int height}) validatePngTextureBytes(
+    Uint8List bytes, {
+    int? width,
+    int? height,
+    bool requireComplete = false,
+    int maxDimension = maxCompressedTextureDimension,
+  }) => _validatePngTextureBytes(
+    bytes,
+    width,
+    height,
+    requireComplete: requireComplete,
+    maxDimension: maxDimension,
+  );
 
   /// Parses exactly the fixed prefix. A transport must separately verify the
   /// actual resource length equals [VrlwBundleHeader.totalLength].
@@ -235,6 +257,14 @@ abstract final class VrlwBundleCodec {
     final bindings = _bindings(document, metadata.prototypeIds, resources);
     final environment = _environment(document, resources);
     final audioEmitters = _audioEmitters(document, resources);
+    final motions = _motions(document, bindings);
+    final interactions = _interactions(
+      document,
+      motions,
+      audioEmitters,
+      cells,
+      metadata.cellSizeMeters,
+    );
     final dependencies = _dependencies(document, metadata.id);
     if (nextOffset != header.packedPayloadLength) {
       _fail('Unindexed or missing payload bytes.');
@@ -255,6 +285,8 @@ abstract final class VrlwBundleCodec {
       prototypeBindings: bindings,
       environment: environment,
       audioEmitters: audioEmitters,
+      motions: motions,
+      interactions: interactions,
       dependencies: dependencies,
     );
   }
@@ -470,6 +502,14 @@ abstract final class VrlwBundleCodec {
     final bindings = _bindings(source, metadata.prototypeIds, resources);
     final environment = _environment(source, resources);
     final audioEmitters = _audioEmitters(source, resources);
+    final motions = _motions(source, bindings);
+    final interactions = _interactions(
+      source,
+      motions,
+      audioEmitters,
+      cells,
+      metadata.cellSizeMeters,
+    );
     final dependencies = _dependencies(source, metadata.id);
     final manifest = utf8.encode(
       jsonEncode({
@@ -492,6 +532,10 @@ abstract final class VrlwBundleCodec {
         if (environment != null) 'environment': environment.toJson(),
         if (source.containsKey('audioEmitters'))
           'audioEmitters': audioEmitters.map((e) => e.toJson()).toList(),
+        if (motions.isNotEmpty)
+          'motions': motions.map((motion) => motion.toJson()).toList(),
+        if (interactions.isNotEmpty)
+          'interactions': interactions.map((item) => item.toJson()).toList(),
         if (source.containsKey('dependencies'))
           'dependencies': dependencies.map((d) => d.toJson()).toList(),
       }),
@@ -517,6 +561,8 @@ const _resourceKeys = {
   'prototypeBindings',
   'environment',
   'audioEmitters',
+  'motions',
+  'interactions',
   'dependencies',
 };
 
@@ -884,6 +930,168 @@ List<VrlwAudioEmitter> _audioEmitters(
   return result;
 }
 
+List<VrlwMotionSpec> _motions(
+  Map<String, Object?> document,
+  List<VrlwPrototypeBinding> bindings,
+) {
+  final boundPrototypes = bindings
+      .map((binding) => binding.prototypeId)
+      .toSet();
+  final ids = <String>{};
+  final targets = <(String, String)>{};
+  final result = <VrlwMotionSpec>[];
+  for (final raw in _optionalList(
+    document,
+    'motions',
+    VrlwBundleCodec.maxMotions,
+  )) {
+    final map = _object(raw, 'motion');
+    _keys(map, {
+      'id',
+      'prototypeId',
+      'node',
+      'kind',
+      'axis',
+      'pivot',
+      'periodSeconds',
+      'amplitude',
+      'rangeMeters',
+      'initiallyEnabled',
+    }, 'motion');
+    final id = _identifier(map['id'], 'motion id');
+    if (!ids.add(id)) _fail('Duplicate motion id.');
+    final prototype = _identifier(map['prototypeId'], 'motion prototypeId');
+    if (!boundPrototypes.contains(prototype)) {
+      _fail('Motion requires a bound model prototype.');
+    }
+    final node = _identifier(map['node'], 'motion node');
+    if (!targets.add((prototype, node))) {
+      _fail('A model node cannot have multiple motion specifications.');
+    }
+    final kind = map['kind'];
+    if (kind != 'spin' && kind != 'bob') _fail('Unsupported motion kind.');
+    final axis = map['axis'];
+    if (axis != 'x' && axis != 'y' && axis != 'z') {
+      _fail('Unsupported motion axis.');
+    }
+    final pivot = map.containsKey('pivot')
+        ? _vec3(map['pivot'], 'motion pivot', -32, 32)
+        : const <double>[0, 0, 0];
+    final period = _number(
+      map['periodSeconds'],
+      'motion periodSeconds',
+      2,
+      120,
+    );
+    double? amplitude;
+    if (kind == 'bob') {
+      amplitude = _number(map['amplitude'], 'motion amplitude', 0.001, 0.5);
+    } else if (map.containsKey('amplitude')) {
+      _fail('Spin motion cannot declare amplitude.');
+    }
+    final range = _number(
+      map.containsKey('rangeMeters') ? map['rangeMeters'] : 32,
+      'motion rangeMeters',
+      4,
+      48,
+    );
+    final enabled = map.containsKey('initiallyEnabled')
+        ? map['initiallyEnabled']
+        : true;
+    if (enabled is! bool) _fail('Motion initiallyEnabled must be a boolean.');
+    result.add(
+      VrlwMotionSpec(
+        id: id,
+        prototypeId: prototype,
+        node: node,
+        kind: kind as String,
+        axis: axis as String,
+        pivot: pivot,
+        periodSeconds: period,
+        amplitude: amplitude,
+        rangeMeters: range,
+        initiallyEnabled: enabled,
+      ),
+    );
+  }
+  return result;
+}
+
+List<VrlwInteractionSpec> _interactions(
+  Map<String, Object?> document,
+  List<VrlwMotionSpec> motions,
+  List<VrlwAudioEmitter> emitters,
+  Set<(int, int)> cells,
+  double cellSize,
+) {
+  final motionIds = motions.map((motion) => motion.id).toSet();
+  final emitterIds = emitters.map((emitter) => emitter.id).toSet();
+  final ids = <String>{};
+  final result = <VrlwInteractionSpec>[];
+  for (final raw in _optionalList(
+    document,
+    'interactions',
+    VrlwBundleCodec.maxInteractions,
+  )) {
+    final map = _object(raw, 'interaction');
+    _keys(map, {
+      'id',
+      'label',
+      'position',
+      'maxDistance',
+      'action',
+      'target',
+    }, 'interaction');
+    final id = _identifier(map['id'], 'interaction id');
+    if (!ids.add(id)) _fail('Duplicate interaction id.');
+    final label = _text(map['label'], 'interaction label', 80);
+    final bound = VrWorldPosition.maximumCoordinateMeters;
+    final position = _vec3(
+      map['position'],
+      'interaction position',
+      -bound,
+      bound,
+    );
+    final cell = (
+      (position[0] / cellSize).floor(),
+      (position[2] / cellSize).floor(),
+    );
+    if (!cells.contains(cell)) {
+      _fail('Interaction must lie inside an indexed region.');
+    }
+    final distance = _number(
+      map.containsKey('maxDistance') ? map['maxDistance'] : 3,
+      'interaction maxDistance',
+      0.25,
+      4,
+    );
+    final action = map['action'];
+    final target = _identifier(map['target'], 'interaction target');
+    if (action == 'toggleMotion') {
+      if (!motionIds.contains(target)) {
+        _fail('Unknown interaction motion target.');
+      }
+    } else if (action == 'toggleAudio') {
+      if (!emitterIds.contains(target)) {
+        _fail('Unknown interaction audio target.');
+      }
+    } else {
+      _fail('Unsupported interaction action.');
+    }
+    result.add(
+      VrlwInteractionSpec(
+        id: id,
+        label: label,
+        position: position,
+        maxDistance: distance,
+        action: action as String,
+        target: target,
+      ),
+    );
+  }
+  return result;
+}
+
 List<VrlwWorldDependency> _dependencies(
   Map<String, Object?> document,
   String selfWorldId,
@@ -897,13 +1105,7 @@ List<VrlwWorldDependency> _dependencies(
     VrlwBundleCodec.maxDependencies,
   )) {
     final map = _object(raw, 'dependency');
-    _keys(map, {
-      'alias',
-      'id',
-      'revision',
-      'indexSha256',
-      'url',
-    }, 'dependency');
+    _keys(map, {'alias', 'id', 'revision', 'indexSha256', 'url'}, 'dependency');
     final alias = _identifier(map['alias'], 'dependency alias');
     if (!aliases.add(alias)) _fail('Duplicate dependency alias $alias.');
     final id = _identifier(map['id'], 'dependency id');
@@ -996,26 +1198,11 @@ void _validateResourceBytes(
     return;
   }
   if (type == 'texture.png') {
-    if (bytes.length < 33) _fail('Truncated PNG resource.');
-    for (var i = 0; i < _pngSignature.length; i++) {
-      if (bytes[i] != _pngSignature[i]) _fail('Invalid PNG signature.');
-    }
-    final data = ByteData.sublistView(bytes);
-    if (data.getUint32(8) != 13 || data.getUint32(12) != 0x49484452) {
-      _fail('PNG resource requires an initial IHDR chunk.');
-    }
-    final pngW = data.getUint32(16);
-    final pngH = data.getUint32(20);
-    if (pngW < 1 ||
-        pngW > VrlwBundleCodec.maxCompressedTextureDimension ||
-        pngH < 1 ||
-        pngH > VrlwBundleCodec.maxCompressedTextureDimension) {
-      _fail('PNG dimensions exceed portable texture budget.');
-    }
-    if ((width != null && pngW != width) ||
-        (height != null && pngH != height)) {
-      _fail('PNG IHDR dimensions do not match declared width/height.');
-    }
+    VrlwBundleCodec.validatePngTextureBytes(
+      bytes,
+      width: width,
+      height: height,
+    );
     return;
   }
   if (type == 'texture.jpeg') {
@@ -1095,6 +1282,118 @@ void _validateResourceBytes(
       data.getUint32(binOffset + 4, Endian.little) != 0x004e4942) {
     _fail('GLB resource requires exactly one trailing BIN chunk.');
   }
+}
+
+({int width, int height}) _validatePngTextureBytes(
+  Uint8List bytes,
+  int? width,
+  int? height, {
+  required bool requireComplete,
+  required int maxDimension,
+}) {
+  if (bytes.length < 33) _fail('Truncated PNG resource.');
+  for (var i = 0; i < _pngSignature.length; i++) {
+    if (bytes[i] != _pngSignature[i]) _fail('Invalid PNG signature.');
+  }
+  final data = ByteData.sublistView(bytes);
+  if (data.getUint32(8) != 13 || data.getUint32(12) != 0x49484452) {
+    _fail('PNG resource requires an initial IHDR chunk.');
+  }
+  final pngW = data.getUint32(16), pngH = data.getUint32(20);
+  if (maxDimension < 1 ||
+      maxDimension > VrlwBundleCodec.maxCompressedTextureDimension ||
+      pngW < 1 ||
+      pngW > maxDimension ||
+      pngW > VrlwBundleCodec.maxCompressedTextureDimension ||
+      pngH < 1 ||
+      pngH > maxDimension ||
+      pngH > VrlwBundleCodec.maxCompressedTextureDimension) {
+    _fail('PNG dimensions exceed portable texture budget.');
+  }
+  if ((width != null && pngW != width) || (height != null && pngH != height)) {
+    _fail('PNG IHDR dimensions do not match declared width/height.');
+  }
+  if (requireComplete) {
+    if (bytes[24] != 8 ||
+        !const [2, 6].contains(bytes[25]) ||
+        bytes[26] != 0 ||
+        bytes[27] != 0 ||
+        bytes[28] != 0) {
+      _fail('Embedded PNG requires non-interlaced RGB8 or RGBA8.');
+    }
+    var at = 8, chunks = 0;
+    var sawData = false, dataEnded = false, ended = false;
+    final idat = BytesBuilder(copy: false);
+    while (at < bytes.length) {
+      if (bytes.length - at < 12) _fail('Truncated PNG chunk.');
+      final length = data.getUint32(at), type = data.getUint32(at + 4);
+      if (length > bytes.length - at - 12 || ++chunks > 4096) {
+        _fail('PNG chunk exceeds its bounds or count budget.');
+      }
+      final end = at + 8 + length;
+      if (getCrc32(Uint8List.sublistView(bytes, at + 4, end)) !=
+          data.getUint32(end)) {
+        _fail('PNG chunk checksum mismatch.');
+      }
+      if (chunks == 1) {
+        if (type != 0x49484452 || length != 13) _fail('Invalid PNG IHDR.');
+      } else if (type == 0x49484452) {
+        _fail('Duplicate PNG IHDR.');
+      } else if (type == 0x49444154) {
+        if (dataEnded || length == 0) _fail('Invalid PNG IDAT sequence.');
+        sawData = true;
+        idat.add(Uint8List.sublistView(bytes, at + 8, end));
+      } else if (type == 0x49454e44) {
+        if (!sawData || length != 0 || end + 4 != bytes.length) {
+          _fail('Invalid PNG IEND.');
+        }
+        ended = true;
+      } else {
+        // Reject APNG and unknown critical chunks before a platform decoder.
+        if (type == 0x6163544c ||
+            type == 0x6663544c ||
+            type == 0x66644154 ||
+            (bytes[at + 4] & 0x20) == 0) {
+          _fail('Animated or unsupported critical PNG chunk.');
+        }
+        if (sawData) dataEnded = true;
+      }
+      at = end + 4;
+    }
+    if (!ended) _fail('PNG requires complete IDAT and IEND chunks.');
+    final compressed = idat.takeBytes();
+    if (compressed.length < 6 ||
+        (compressed[0] & 0xf) != 8 ||
+        (compressed[0] >> 4) > 7 ||
+        (compressed[0] * 256 + compressed[1]) % 31 != 0 ||
+        (compressed[1] & 0x20) != 0) {
+      _fail('PNG requires a complete DEFLATE zlib stream without dictionary.');
+    }
+    final channels = bytes[25] == 2 ? 3 : 4;
+    final rowBytes = 1 + pngW * channels;
+    final expected = pngH * rowBytes;
+    final raw = Uint8List.sublistView(compressed, 2, compressed.length - 4);
+    final padded = Uint8List(raw.length + 6)..setRange(0, raw.length, raw);
+    final input = InputMemoryStream(padded);
+    final output = VrlwBoundedOutput(expected);
+    try {
+      Inflate.stream(input, output: output);
+    } catch (_) {
+      _fail('Invalid or over-budget PNG DEFLATE scanlines.');
+    }
+    if (input.position != raw.length || output.length != expected) {
+      _fail('PNG scanline length mismatch or trailing compressed data.');
+    }
+    final scanlines = output.getBytes();
+    final adler = ByteData.sublistView(
+      compressed,
+    ).getUint32(compressed.length - 4);
+    if (getAdler32(scanlines) != adler) _fail('PNG zlib checksum mismatch.');
+    for (var row = 0; row < pngH; row++) {
+      if (scanlines[row * rowBytes] > 4) _fail('Invalid PNG scanline filter.');
+    }
+  }
+  return (width: pngW, height: pngH);
 }
 
 const _metadataKeys = {

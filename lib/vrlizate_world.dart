@@ -23,6 +23,8 @@ export 'domain/models/vrlw_chunk_decode_request.dart';
 export 'domain/models/vrlw_chunk_index.dart';
 export 'domain/models/vrlw_collider_spec.dart';
 export 'domain/models/vrlw_environment_spec.dart';
+export 'domain/models/vrlw_interaction_spec.dart';
+export 'domain/models/vrlw_motion_spec.dart';
 export 'domain/models/vrlw_prototype_binding.dart';
 export 'domain/models/vrlw_resource_index.dart';
 export 'domain/models/vrlw_world_dependency.dart';

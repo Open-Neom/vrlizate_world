@@ -1,9 +1,11 @@
 abstract final class VrWorldConstants {
-  static const String identifierPattern = r'^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$';
+  static const String identifierPattern =
+      r'^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$';
   static const String sha256Pattern = r'^[0-9a-f]{64}$';
   static const String controlCharPattern = r'[\x00-\x1f\x7f]';
   static const String diskEntryNamePattern = r'^r-[0-9a-f]{32}\.vrregion$';
-  static const String diskPendingNamePattern = r'^\.pending-[0-9]+-[0-9]+\.tmp$';
+  static const String diskPendingNamePattern =
+      r'^\.pending-[0-9]+-[0-9]+\.tmp$';
 
   static const double maximumCoordinateMeters = 10000000.0;
   static const double maximumScale = 1000.0;
@@ -58,6 +60,8 @@ abstract final class VrWorldConstants {
   static const int vrlwMaxTextureDimension = 512;
   static const int vrlwMaxCompressedTextureDimension = 2048;
   static const int vrlwMaxAudioEmitters = 64;
+  static const int vrlwMaxMotions = 8;
+  static const int vrlwMaxInteractions = 8;
   static const int vrlwMaxDependencies = 32;
   static const String vrlwMagic = 'VRLW0001';
   static const int vrlwMaxReadLength = 1024 * 1024;
@@ -147,8 +151,7 @@ abstract final class VrWorldConstants {
       'VRLW source exceeds its byte budget.';
   static const String errVrlwRangeBudget =
       'VRLW range exceeds its source or read budget.';
-  static const String errVrlwPlaceReaderClosed =
-      'VRLW place reader is closed.';
+  static const String errVrlwPlaceReaderClosed = 'VRLW place reader is closed.';
   static const String errPortalTriggerRadius =
       'Portal trigger radius must be finite, > 0, and <= 1000.';
   static const String errPortalLabel =

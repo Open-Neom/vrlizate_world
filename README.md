@@ -40,7 +40,36 @@ final nearby = world.queryRadius(
 - **`VrWorldEnvironmentPreset`, `VrPortalLink` y `VrWorldBuilder`:** presets de iluminación ambiental/cielo/niebla, enlaces de portal inter-mundo con radio de activación y constructor fluido de mundos.
 - **Streaming y caché de regiones (`VrRegionGrid`, `VrRegionCache<T>`):** precarga de celdas vecinas con concurrencia acotada, histéresis de retención, presupuestos de bytes/entradas y política TTL/LRU.
 - **Caché persistente en disco (`package:vrlizate_world/vrlizate_world_io.dart`):** `VrRegionDiskCache` con escrituras atómicas, poda por edad/tamaño y verificación contra corrupción.
-- **Paquetes de lugares `.vrlw` (`VrlwBundleCodec`, `VrlwPlaceReader`, `VrlwRegionProvider`):** contenedor `VRLW0001` con índice frontal, regiones comprimidas independientes (`DEFLATE`/`STORE`), recursos estáticos GLB/RGBA8 opcionales y decodificación de bloques grandes en isolate nativo con fallback inline en web.
+- **Paquetes de lugares `.vrlw` (`VrlwBundleCodec`, `VrlwPlaceReader`, `VrlwRegionProvider`):** contenedor `VRLW0001` con índice frontal, regiones comprimidas independientes (`DEFLATE`/`STORE`), recursos estáticos de modelo/textura/audio opcionales, contratos declarativos acotados de movimiento/interacción y decodificación de bloques grandes en isolate nativo con fallback inline en web.
+
+## Mundos con movimiento, controles y sonido
+
+La beta **VRLW v1** incorpora `VrlwMotionSpec` y `VrlwInteractionSpec` en
+`VrlwBundleIndex.motions`/`interactions`, con un máximo de ocho entradas de cada
+tipo. El codec puro Dart valida referencias, coordenadas, periodos y amplitudes;
+no ejecuta animaciones, reproduce audio ni crea recursos de GPU. Los campos
+opcionales vacíos se omiten, manteniendo los bytes de los documentos anteriores.
+Un lector beta que no conozca los campos nuevos los rechaza.
+
+El host móvil de `vrlizate_apps` admite giro `spin` y oscilación `bob` de un nodo
+GLB con nombre único, malla y transformación implícita identidad, sin hijos y
+directamente en la escena activa. Aplica un máximo de 16 instancias de primitivas
+móviles residentes y actualiza las transformaciones hasta 30 Hz; no promete una
+tasa de renderizado. Los controles cercanos solo permiten `toggleMotion` o
+`toggleAudio`, con alcance máximo de cuatro metros y cooldown de 0,4 segundos.
+Los toggles y la fase se retienen al recorrer portales dentro de esa instancia
+del visor; no se guardan en el archivo, en el snapshot persistente ni en red.
+
+El codec general conserva sus tipos de recursos `audio.*`, mientras que el
+perfil móvil de Apps restringe cada mundo a ocho recursos no sonoros más un
+único WAV PCM canónico: mono, 16 bits, 16 000 o 22 050 Hz, hasta 256 KiB y ocho
+segundos. La salida de audio se inyecta de forma optativa por el host, que
+mantiene como máximo dos voces y actualizaciones a 10 Hz. VRlizate reutiliza
+`neom_sound`/SoLoud mediante su adaptador; World no añade dependencias nativas.
+
+Consulta los [campos y límites del formato](doc/vrlw_format.md#movimiento-e-interacciones-declarativos),
+el [perfil móvil de Apps](../vrlizate_apps/doc/vrlz_format.md#movimiento-controles-y-audio-de-mundos-v1-beta)
+y la [guía de autoría de la biblioteca](https://github.com/Open-Neom/codebase_vrlw/blob/main/docs/LIVING_WORLDS_MOBILE.md).
 
 ## Herramientas CLI
 
@@ -53,9 +82,16 @@ dart run tool/benchmark_vrlw.dart
 ## Verificación
 
 ```sh
-flutter analyze
-flutter test
+dart analyze lib test tool
+dart test
 ```
+
+El lote de contratos de la ampliación del 25 de octubre de 2026 pasó 84 pruebas:
+`vrlw_behaviors_test.dart` (47 casos nuevos), `vrlw_resources_test.dart` y
+`vrlw_bundle_test.dart`. Comprueba paridad de compilador/lector estricto,
+referencias, límites, números inválidos, copias inmutables y compatibilidad de
+bytes. La presentación, el audio nativo y el rendimiento se verifican en sus
+consumidores; este resultado no mide FPS ni valida una GPU de teléfono.
 
 ## Licencia
 

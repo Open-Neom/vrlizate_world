@@ -2,6 +2,8 @@ import 'vrlw_audio_emitter.dart';
 import 'vrlw_bundle_header.dart';
 import 'vrlw_chunk_index.dart';
 import 'vrlw_environment_spec.dart';
+import 'vrlw_interaction_spec.dart';
+import 'vrlw_motion_spec.dart';
 import 'vrlw_prototype_binding.dart';
 import 'vrlw_resource_index.dart';
 import 'vrlw_world_dependency.dart';
@@ -28,6 +30,8 @@ final class VrlwBundleIndex {
     required List<VrlwPrototypeBinding> prototypeBindings,
     this.environment,
     List<VrlwAudioEmitter> audioEmitters = const [],
+    List<VrlwMotionSpec> motions = const [],
+    List<VrlwInteractionSpec> interactions = const [],
     List<VrlwWorldDependency> dependencies = const [],
   }) : prototypeIds = Set.unmodifiable(prototypeIds),
        origin = Map.unmodifiable(origin),
@@ -35,6 +39,8 @@ final class VrlwBundleIndex {
        resources = List.unmodifiable(resources),
        prototypeBindings = List.unmodifiable(prototypeBindings),
        audioEmitters = List.unmodifiable(audioEmitters),
+       motions = List.unmodifiable(motions),
+       interactions = List.unmodifiable(interactions),
        dependencies = List.unmodifiable(dependencies),
        _resourcesById = {
          for (final resource in resources) resource.id: resource,
@@ -60,6 +66,8 @@ final class VrlwBundleIndex {
   final List<VrlwPrototypeBinding> prototypeBindings;
   final VrlwEnvironmentSpec? environment;
   final List<VrlwAudioEmitter> audioEmitters;
+  final List<VrlwMotionSpec> motions;
+  final List<VrlwInteractionSpec> interactions;
   final List<VrlwWorldDependency> dependencies;
   final Map<String, VrlwResourceIndex> _resourcesById;
   final Map<(int, int), VrlwChunkIndex> _byCell;
