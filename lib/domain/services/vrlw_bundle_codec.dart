@@ -15,6 +15,7 @@ import '../models/vrlw_bundle_header.dart';
 import '../models/vrlw_bundle_index.dart';
 import '../models/vrlw_chunk_index.dart';
 import '../models/vrlw_collider_spec.dart';
+import '../models/vrlw_day_night_cycle_spec.dart';
 import '../models/vrlw_environment_spec.dart';
 import '../models/vrlw_interaction_spec.dart';
 import '../models/vrlw_motion_spec.dart';
@@ -66,6 +67,8 @@ abstract final class VrlwBundleCodec {
       VrWorldConstants.vrlwMaxCompressedTextureDimension;
   static const maxAudioEmitters = VrWorldConstants.vrlwMaxAudioEmitters;
   static const maxMotions = VrWorldConstants.vrlwMaxMotions;
+  static const minPathWaypoints = VrWorldConstants.vrlwMinPathWaypoints;
+  static const maxPathWaypoints = VrWorldConstants.vrlwMaxPathWaypoints;
   static const maxInteractions = VrWorldConstants.vrlwMaxInteractions;
   static const maxDependencies = VrWorldConstants.vrlwMaxDependencies;
   static const _magic = VrWorldConstants.vrlwMagic;
@@ -810,6 +813,7 @@ VrlwEnvironmentSpec? _environment(
     'sunColor',
     'sunIntensity',
     'castsShadows',
+    'dayNightCycle',
   }, 'environment');
   final byId = {for (final resource in resources) resource.id: resource};
   String? environmentResource;
@@ -869,7 +873,29 @@ VrlwEnvironmentSpec? _environment(
     sunColor: sunColor,
     sunIntensity: sunIntensity,
     castsShadows: castsShadows,
+    dayNightCycle: map.containsKey('dayNightCycle')
+        ? _dayNightCycle(map['dayNightCycle'])
+        : null,
   );
+}
+
+VrlwDayNightCycleSpec _dayNightCycle(Object? raw) {
+  final map = _object(raw, 'dayNightCycle');
+  _keys(map, {'durationSeconds', 'initialHour'}, 'dayNightCycle');
+  final duration = _number(
+    map['durationSeconds'],
+    'dayNightCycle durationSeconds',
+    120,
+    7200,
+  );
+  final hour = _number(
+    map.containsKey('initialHour') ? map['initialHour'] : 12,
+    'dayNightCycle initialHour',
+    0,
+    24,
+  );
+  if (hour >= 24) _fail('dayNightCycle initialHour must be below 24.');
+  return VrlwDayNightCycleSpec(durationSeconds: duration, initialHour: hour);
 }
 
 List<VrlwAudioEmitter> _audioEmitters(
@@ -957,6 +983,9 @@ List<VrlwMotionSpec> _motions(
       'amplitude',
       'rangeMeters',
       'initiallyEnabled',
+      'waypoints',
+      'phaseOffset',
+      'orientToPath',
     }, 'motion');
     final id = _identifier(map['id'], 'motion id');
     if (!ids.add(id)) _fail('Duplicate motion id.');
@@ -969,7 +998,9 @@ List<VrlwMotionSpec> _motions(
       _fail('A model node cannot have multiple motion specifications.');
     }
     final kind = map['kind'];
-    if (kind != 'spin' && kind != 'bob') _fail('Unsupported motion kind.');
+    if (kind != 'spin' && kind != 'bob' && kind != 'path') {
+      _fail('Unsupported motion kind.');
+    }
     final axis = map['axis'];
     if (axis != 'x' && axis != 'y' && axis != 'z') {
       _fail('Unsupported motion axis.');
@@ -987,7 +1018,52 @@ List<VrlwMotionSpec> _motions(
     if (kind == 'bob') {
       amplitude = _number(map['amplitude'], 'motion amplitude', 0.001, 0.5);
     } else if (map.containsKey('amplitude')) {
-      _fail('Spin motion cannot declare amplitude.');
+      _fail('Only bob motion can declare amplitude.');
+    }
+    List<List<double>> waypoints = const [];
+    var phaseOffset = 0.0;
+    var orientToPath = true;
+    if (kind == 'path') {
+      if (axis != 'y' || pivot.any((value) => value != 0)) {
+        _fail('Path motion requires axis y and a zero pivot.');
+      }
+      final points = _list(
+        map['waypoints'],
+        'motion waypoints',
+        VrlwBundleCodec.maxPathWaypoints,
+      );
+      if (points.length < VrlwBundleCodec.minPathWaypoints) {
+        _fail('Path motion requires at least three waypoints.');
+      }
+      waypoints = [
+        for (final point in points) _vec3(point, 'motion waypoint', -32, 32),
+      ];
+      for (var i = 0; i < waypoints.length; i++) {
+        final a = waypoints[i];
+        final b = waypoints[(i + 1) % waypoints.length];
+        if (a[0] == b[0] && a[1] == b[1] && a[2] == b[2]) {
+          _fail('Path consecutive waypoints, including closure, must differ.');
+        }
+      }
+      phaseOffset = _number(
+        map.containsKey('phaseOffset') ? map['phaseOffset'] : 0,
+        'motion phaseOffset',
+        0,
+        1,
+      );
+      if (phaseOffset >= 1) _fail('Motion phaseOffset must be below one.');
+      if (map.containsKey('orientToPath')) {
+        if (map['orientToPath'] is! bool) {
+          _fail('Motion orientToPath must be a boolean.');
+        }
+        orientToPath = map['orientToPath'] as bool;
+      }
+    } else if ([
+      'waypoints',
+      'phaseOffset',
+      'orientToPath',
+    ].any(map.containsKey)) {
+      _fail('Only path motion can declare path fields.');
     }
     final range = _number(
       map.containsKey('rangeMeters') ? map['rangeMeters'] : 32,
@@ -1011,6 +1087,9 @@ List<VrlwMotionSpec> _motions(
         amplitude: amplitude,
         rangeMeters: range,
         initiallyEnabled: enabled,
+        waypoints: waypoints,
+        phaseOffset: phaseOffset,
+        orientToPath: orientToPath,
       ),
     );
   }

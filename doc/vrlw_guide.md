@@ -1,9 +1,9 @@
 # Crear y compartir lugares `.vrlw`
 
-Guía para autores e implementadores. Actualizada el 10 de octubre de 2026 para
-VRLW v1 beta y el código de VRlizate SDK preview.7. Es un formato experimental:
-la especificación y los ejemplos están en este repositorio local; esta guía
-no implica que se haya publicado una descarga, un estándar o un paquete en Pub.
+Guía para autores e implementadores. Actualizada el 26 de octubre de 2026 para
+VRLW v1 beta. Es un formato experimental: las capacidades disponibles dependen
+de la revisión del SDK del host. Esta guía no declara un estándar ni demuestra
+que cualquier revisión esté publicada en Pub.
 
 ## Qué representa un archivo
 
@@ -14,15 +14,16 @@ cercanas, conservarlas en caché y dejar de dibujarlas cuando ya no son necesari
 | Elemento | Papel |
 | --- | --- |
 | `.vrlz` | Experiencia compatible con alguno de los runtimes de la plataforma. |
-| `.vrlw` v1 beta | Entidades, prototipos y recursos GLB/RGBA8 opcionales con vinculaciones validadas. |
+| `.vrlw` v1 beta | Entidades y recursos validados, movimientos y controles declarativos, ciclo visual opcional. |
 | `vrlizate_world` | Compilación, validación, coordenadas, lector y caché de regiones. |
 | `vrlizate_apps` | Transporte HTTPS por rangos para lugares y APIs de experiencias. |
 | Host/renderizador | Permisos, prototipos, geometría, materiales, física, audio y presentación. |
 
-Esta versión no contiene Dart ejecutable ni audio propio. La base permite
-referenciar prototipos del host: declarar `openworld.tree` no descarga un árbol.
-La ampliación de esta misma beta también admite GLB estático y texturas RGBA8
-con vinculaciones explícitas, validadas por el host. Consultar la
+Esta versión no contiene Dart ejecutable. La base permite referenciar prototipos
+del host: declarar `openworld.tree` no descarga un árbol. La misma beta admite
+modelos, texturas, muestras de audio y acciones acotadas con vinculaciones
+explícitas, validadas por el host; el perfil móvil limita los recursos admitidos.
+Consultar la
 [autoría externa y mundos conectados](../../docs/creator_worlds_beta.md) para ese
 perfil y la [hoja de ruta de v1 beta](vrlw_beta_roadmap.md) para lo pendiente.
 
@@ -43,7 +44,8 @@ dart run doc/examples/read_garden.dart /tmp/garden-demo.vrlw
 `/tmp` es una ruta de ejemplo para macOS/Linux; en Windows elegir otra carpeta
 escribible. El empaquetador no sobrescribe salidas: cambiar el nombre al repetir
 la prueba. En un proyecto externo, añadir `vrlizate_world` como dependencia `path`
-al SDK descargado/extraído; el módulo todavía tiene `publish_to: none`.
+al SDK descargado/extraído, o usar una revisión Git compatible. Resolver la
+misma revisión en autor y host antes de distribuir campos nuevos.
 
 La [fuente editable](examples/garden.vrlw.json) define un árbol en `(2, 0, 3)`
 metros, con escala `1.5`, dentro de la región `(0, 0)` de 12 metros. El
@@ -89,6 +91,68 @@ entidad. Los ejes locales son +X derecha, +Y arriba y −Z adelante.
 Cambiar el origen, tamaño de celda o contenido exige revisar la identidad de
 autoría. El proveedor aísla la caché usando el hash exacto del índice. La instancia
 la asigna el host; escribir un ID no concede acceso a una sesión privada.
+
+## Recorridos urbanos y ciclo visual
+
+La ampliación del 26 de octubre conserva `schemaVersion: 1` y la cabecera
+`VRLW0001`. Un `motion` de tipo `path` mueve una malla permitida por un circuito
+cerrado de 3–16 puntos, en metros del modelo. No repitas el primer punto al final:
+el host añade ese cierre. Usa puntos consecutivos diferentes, dentro de ±32 m
+por coordenada, y verifica que el camino no atraviese fachadas, muebles o zonas
+fuera de acceso. El codec no calcula navegación ni colisiones.
+
+Este fragmento se añade a una fuente completa con un prototipo vinculado
+`plaza.people` y un nodo GLB animable llamado `walker`:
+
+```json
+{
+  "motions": [{
+    "id": "plaza.walker", "prototypeId": "plaza.people", "node": "walker",
+    "kind": "path", "axis": "y", "pivot": [0, 0, 0],
+    "periodSeconds": 48,
+    "waypoints": [[-6, 0, -4], [6, 0, -4], [6, 0, 4], [-6, 0, 4]],
+    "phaseOffset": 0.25, "orientToPath": true,
+    "rangeMeters": 32, "initiallyEnabled": true
+  }],
+  "environment": {
+    "sunDirection": [-0.4, -1, -0.2], "sunIntensity": 2.5,
+    "dayNightCycle": {"durationSeconds": 600, "initialHour": 8}
+  }
+}
+```
+
+El periodo de una vuelta sigue acotado a 2–120 segundos. `phaseOffset` es una
+fracción inicial de vuelta de cero a menos de uno, útil para separar actores;
+`orientToPath` solicita orientación hacia el recorrido y puede ser `false`.
+Sus valores por defecto son 0 y `true`. `path` exige eje Y, pivote cero y no
+admite `amplitude`. No copies `waypoints`, `phaseOffset` ni `orientToPath` en
+`spin` o `bob`: se rechazan incluso si parecen valores inocuos.
+
+El nodo objetivo mantiene las reglas móviles existentes: nombre único, hoja
+con malla directamente en la escena activa, sin hijos y con transformación
+implícita identidad. Anima la malla pequeña del actor, no el edificio que lo
+contiene. Las rutas son relativas a la pose de su entidad; cada punto no es una
+posición mundial ni una nueva celda. Siguen vigentes ocho tracks por mundo,
+16 instancias de primitivas móviles residentes y actualización de matrices de
+hasta 30 Hz en el adaptador móvil. Esa frecuencia no es el FPS del visor.
+
+`VrlwMotionSpec.waypoints` es una lista doble inmutable; el SDK copia todos los
+vectores de entrada. Se puede alternar el track con una interacción
+`toggleMotion` que apunte a su `id`, usando el contrato de proximidad existente.
+No se adjuntan scripts de llegada ni nuevas clases de comportamiento.
+
+`environment.dayNightCycle` es un `VrlwDayNightCycleSpec` opcional: duración de
+120–7 200 segundos por día virtual e `initialHour` entre cero y menos de 24
+(por defecto 12). Es una referencia visual local, sin reloj real, servicios web,
+clima o sincronización multiusuario. No añadas `dayNightCycle: null`: omite el
+campo para un entorno estático. El consumidor actualizado decide cómo evaluar,
+pausar y presentar la iluminación dentro de su presupuesto.
+
+Antes de publicar, compila con el codec del SDK de destino y comprueba el perfil
+móvil. Los hosts beta anteriores rechazan los campos nuevos. La suite
+`test/vrlw_urban_life_contract_test.dart` comprueba los límites, el roundtrip y
+hashes de compatibilidad de mundos anteriores; no sustituye una prueba visual,
+una revisión de accesos ni mediciones de FPS y consumo en el teléfono.
 
 ## Integración con una experiencia
 

@@ -147,19 +147,66 @@ identidad, prototipo y transformación; no aceptan componentes arbitrarios.
 | Campo de motion | Contrato |
 | --- | --- |
 | `id`, `prototypeId`, `node` | Identificadores ASCII de hasta 128 caracteres; `prototypeId` exige binding GLB y cada ID es único. No se repite `(prototypeId, node)`. |
-| `kind` | `spin` o `bob`. |
-| `axis` | `x`, `y` o `z`, en el marco del modelo. |
-| `pivot` | Tres números finitos de −32 a 32 m, por defecto `[0,0,0]`; centro del giro local. |
+| `kind` | `spin`, `bob` o `path`. |
+| `axis` | `x`, `y` o `z`, en el marco del modelo; `path` exige `y`. |
+| `pivot` | Tres números finitos de −32 a 32 m, por defecto `[0,0,0]`; centro del giro local. `path` exige el vector cero. |
 | `periodSeconds` | Obligatorio, finito, de 2 a 120 s. |
-| `amplitude` | Obligatoria solo para `bob`: 0,001–0,5 m; se rechaza si `kind` es `spin`. |
+| `amplitude` | Obligatoria solo para `bob`: 0,001–0,5 m; se rechaza en `spin` y `path`. |
 | `rangeMeters` | 4–48 m, por defecto 32; radio para suspender actualización distante. |
 | `initiallyEnabled` | Booleano, por defecto `true`. |
+| `waypoints` | Solo `path`: de 3 a 16 vectores XYZ finitos, cada coordenada entre −32 y 32 m del modelo. |
+| `phaseOffset` | Solo `path`: número finito `0 <= valor < 1`, por defecto 0. |
+| `orientToPath` | Solo `path`: booleano, por defecto `true`; solicita orientación hacia el recorrido. |
 
 `spin` usa un giro positivo de `2π × tiempo / periodo`; `bob` usa un
 desplazamiento `amplitude × sin(2π × tiempo / periodo)` en su eje. El giro se
 aplica alrededor del pivote, antes de la pose de la entidad. No mueve colliders
 ni aporta simulación de física. Un consumidor debe limitar además las instancias
 activas y verificar la geometría objetivo.
+
+### Recorridos cerrados, beta del 26 de octubre de 2026
+
+`path` describe un circuito modelo-local, no una ruta ejecutable ni coordenadas
+planetarias. El último punto conecta implícitamente con el primero: no se repite
+el primer punto al final. Cada par consecutivo, incluido ese cierre, debe tener
+una separación XYZ no nula. El codec rechaza duplicados adyacentes, pero no
+prohíbe cruces, pendientes o puntos no adyacentes repetidos ni demuestra que el
+recorrido esté libre de obstáculos. El autor mantiene esa responsabilidad.
+
+El periodo existente de 2–120 s corresponde a una vuelta completa. `phaseOffset`
+permite distribuir instancias a lo largo de la vuelta; debe ser menor que uno,
+sin normalización silenciosa de valores inválidos. `orientToPath` solicita al
+host orientar la malla en el recorrido. Para mantener una transformación acotada,
+`path` exige `axis: "y"`, pivote cero y ausencia de `amplitude`. `spin` y `bob`
+rechazan cualquiera de los tres campos específicos de path, aunque su valor
+sea el predeterminado. Un vector cero puede omitirse como pivote, igual que en
+los movimientos anteriores.
+
+`VrlwMotionSpec.waypoints` copia tanto la lista exterior como cada vector;
+ninguna puede mutarse después. Los getters `phaseOffset` y `orientToPath` tienen
+los valores por defecto anteriores. `toJson()` solo emite los tres campos nuevos
+cuando `kind == "path"`; no reescribe el JSON de `spin`/`bob`. Siguen siendo como
+máximo ocho tracks y no se aumenta el presupuesto de primitivas móviles del host.
+
+### Ciclo visual de día y noche
+
+`environment.dayNightCycle` admite exclusivamente un objeto con:
+
+| Campo | Contrato |
+| --- | --- |
+| `durationSeconds` | Obligatorio y finito, de 120 a 7 200 s por día virtual completo. |
+| `initialHour` | Finito, `0 <= valor < 24`, por defecto 12. |
+
+El modelo público `VrlwDayNightCycleSpec` es inmutable y se expone como
+`VrlwEnvironmentSpec.dayNightCycle`. No usa hora de sistema, zona horaria ni red:
+el host evalúa un ciclo visual local. No aporta meteorología, hora planetaria,
+física o nuevas fuentes de iluminación sin límite. La suspensión y presentación
+se implementan en el consumidor; el codec solo admite datos explícitos.
+
+`dayNightCycle: null`, campos extra, horas fuera de rango y duraciones no finitas
+o fuera de límite se rechazan. Al omitir el objeto, el entorno estático conserva
+su JSON y bytes anteriores. Las dos ampliaciones permanecen en **VRLW v1 beta**;
+un host que no implemente estos campos los rechaza, no los ejecuta parcialmente.
 
 | Campo de interacción | Contrato |
 | --- | --- |
@@ -271,6 +318,14 @@ coordenadas negativas/bordes, inmutabilidad y bytes anteriores. El consumidor
 Apps superó su ronda de 101 pruebas de lógica/perfil/presupuesto (incluye 42 de
 actividad y perfil, más siete del límite móvil). Son evidencias previas a GPU,
 no una medida de FPS, acústica ni calidad visual en dispositivo.
+
+La ampliación urbana del 26 de octubre añade pruebas de roundtrip STORE/DEFLATE,
+límites 3/16 waypoints y ocho tracks, cierre implícito, campos exclusivos de path,
+copia profunda de vectores y ciclo visual estricto. La prueba de compatibilidad
+usa hashes de bytes generados con el codec del commit anterior `efd7581`, no con
+la implementación bajo prueba; conserva exactamente `spin`, `bob` y entornos sin
+los campos nuevos. Esta verificación de datos no mide FPS ni certifica rutas sin
+colisiones o calidad visual en dispositivo.
 
 ## Fuentes locales y HTTPS
 

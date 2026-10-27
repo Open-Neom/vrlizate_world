@@ -22,6 +22,7 @@ export 'domain/models/vrlw_byte_source.dart';
 export 'domain/models/vrlw_chunk_decode_request.dart';
 export 'domain/models/vrlw_chunk_index.dart';
 export 'domain/models/vrlw_collider_spec.dart';
+export 'domain/models/vrlw_day_night_cycle_spec.dart';
 export 'domain/models/vrlw_environment_spec.dart';
 export 'domain/models/vrlw_interaction_spec.dart';
 export 'domain/models/vrlw_motion_spec.dart';

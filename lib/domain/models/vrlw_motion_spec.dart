@@ -14,11 +14,17 @@ final class VrlwMotionSpec {
     this.amplitude,
     this.rangeMeters = 32,
     this.initiallyEnabled = true,
-  }) : pivot = List.unmodifiable(pivot);
+    List<List<double>> waypoints = const [],
+    this.phaseOffset = 0,
+    this.orientToPath = true,
+  }) : pivot = List.unmodifiable(pivot),
+       waypoints = List.unmodifiable(
+         waypoints.map((point) => List<double>.unmodifiable(point)),
+       );
 
   final String id, prototypeId, node;
 
-  /// `spin` completes one turn per period; `bob` follows one sine period.
+  /// `spin` completes one turn, `bob` one sine period, and `path` one closed lap.
   final String kind;
 
   /// Model-local axis: `x`, `y`, or `z`.
@@ -31,6 +37,16 @@ final class VrlwMotionSpec {
   final double rangeMeters;
   final bool initiallyEnabled;
 
+  /// Model-local closed circuit; the last point must not repeat the first.
+  /// Empty for legacy `spin`/`bob`. Every nested vector is immutable.
+  final List<List<double>> waypoints;
+
+  /// Normalized starting lap phase, in [0, 1); used only by `path`.
+  final double phaseOffset;
+
+  /// Whether the host turns a path mesh toward the segment heading.
+  final bool orientToPath;
+
   Map<String, Object> toJson() => {
     'id': id,
     'prototypeId': prototypeId,
@@ -42,5 +58,10 @@ final class VrlwMotionSpec {
     if (amplitude != null) 'amplitude': amplitude!,
     'rangeMeters': rangeMeters,
     'initiallyEnabled': initiallyEnabled,
+    if (kind == 'path') ...{
+      'waypoints': waypoints,
+      'phaseOffset': phaseOffset,
+      'orientToPath': orientToPath,
+    },
   };
 }

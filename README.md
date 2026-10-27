@@ -51,7 +51,8 @@ no ejecuta animaciones, reproduce audio ni crea recursos de GPU. Los campos
 opcionales vacíos se omiten, manteniendo los bytes de los documentos anteriores.
 Un lector beta que no conozca los campos nuevos los rechaza.
 
-El host móvil de `vrlizate_apps` admite giro `spin` y oscilación `bob` de un nodo
+El host móvil actualizado de `vrlizate_apps` admite giro `spin`, oscilación `bob`
+y recorridos cerrados `path` de un nodo
 GLB con nombre único, malla y transformación implícita identidad, sin hijos y
 directamente en la escena activa. Aplica un máximo de 16 instancias de primitivas
 móviles residentes y actualiza las transformaciones hasta 30 Hz; no promete una
@@ -66,6 +67,12 @@ perfil móvil de Apps restringe cada mundo a ocho recursos no sonoros más un
 segundos. La salida de audio se inyecta de forma optativa por el host, que
 mantiene como máximo dos voces y actualizaciones a 10 Hz. VRlizate reutiliza
 `neom_sound`/SoLoud mediante su adaptador; World no añade dependencias nativas.
+
+`path` declara 3–16 waypoints modelo-locales dentro de ±32 m y un periodo de
+2–120 s, con fase inicial y orientación opcionales. El objeto inmutable
+`VrlwDayNightCycleSpec`, en `environment.dayNightCycle`, añade un día visual de
+120–7 200 s y hora inicial de 0 a menos de 24. Ambas capacidades conservan v1 beta
+sin ejecutar código descargado; su admisión exige un consumidor actualizado.
 
 Consulta los [campos y límites del formato](doc/vrlw_format.md#movimiento-e-interacciones-declarativos),
 el [perfil móvil de Apps](../vrlizate_apps/doc/vrlz_format.md#movimiento-controles-y-audio-de-mundos-v1-beta)

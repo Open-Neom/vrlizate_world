@@ -61,6 +61,8 @@ abstract final class VrWorldConstants {
   static const int vrlwMaxCompressedTextureDimension = 2048;
   static const int vrlwMaxAudioEmitters = 64;
   static const int vrlwMaxMotions = 8;
+  static const int vrlwMinPathWaypoints = 3;
+  static const int vrlwMaxPathWaypoints = 16;
   static const int vrlwMaxInteractions = 8;
   static const int vrlwMaxDependencies = 32;
   static const String vrlwMagic = 'VRLW0001';

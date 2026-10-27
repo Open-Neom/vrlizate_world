@@ -1,3 +1,5 @@
+import 'vrlw_day_night_cycle_spec.dart';
+
 /// World-level lighting, IBL/skybox, exposure, and directional sun parameters.
 final class VrlwEnvironmentSpec {
   const VrlwEnvironmentSpec({
@@ -9,6 +11,7 @@ final class VrlwEnvironmentSpec {
     this.sunColor,
     this.sunIntensity,
     this.castsShadows,
+    this.dayNightCycle,
   });
 
   final String? environmentResource;
@@ -19,6 +22,7 @@ final class VrlwEnvironmentSpec {
   final List<double>? sunColor;
   final double? sunIntensity;
   final bool? castsShadows;
+  final VrlwDayNightCycleSpec? dayNightCycle;
 
   Map<String, Object> toJson() => {
     if (environmentResource != null)
@@ -31,5 +35,6 @@ final class VrlwEnvironmentSpec {
     if (sunColor != null) 'sunColor': sunColor!,
     if (sunIntensity != null) 'sunIntensity': sunIntensity!,
     if (castsShadows != null) 'castsShadows': castsShadows!,
+    if (dayNightCycle != null) 'dayNightCycle': dayNightCycle!.toJson(),
   };
 }
