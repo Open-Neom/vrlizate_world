@@ -1,4 +1,5 @@
 import 'vrlw_collider_spec.dart';
+import 'vrlw_lod_level.dart';
 
 /// Declares static data for a prototype, not permission to instantiate it.
 /// The host validates the model profile before registering the prototype.
@@ -14,6 +15,8 @@ final class VrlwPrototypeBinding {
     this.audio,
     this.collider,
     this.castsShadows,
+    this.lods = const [],
+    this.lodHysteresisMeters = 2,
   });
 
   final String prototypeId, model;
@@ -25,6 +28,12 @@ final class VrlwPrototypeBinding {
   final String? audio;
   final VrlwColliderSpec? collider;
   final bool? castsShadows;
+
+  /// Empty preserves the legacy single-detail model. Decoded lists are frozen.
+  final List<VrlwLodLevel> lods;
+
+  /// World meters on each side of a transition to avoid boundary oscillation.
+  final double lodHysteresisMeters;
 
   Map<String, Object> toJson() => {
     'prototypeId': prototypeId,
@@ -38,5 +47,9 @@ final class VrlwPrototypeBinding {
     if (audio != null) 'audio': audio!,
     if (collider != null) 'collider': collider!.toJson(),
     if (castsShadows != null) 'castsShadows': castsShadows!,
+    if (lods.isNotEmpty) ...{
+      'lods': lods.map((level) => level.toJson()).toList(),
+      'lodHysteresisMeters': lodHysteresisMeters,
+    },
   };
 }

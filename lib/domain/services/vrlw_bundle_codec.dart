@@ -18,6 +18,7 @@ import '../models/vrlw_collider_spec.dart';
 import '../models/vrlw_day_night_cycle_spec.dart';
 import '../models/vrlw_environment_spec.dart';
 import '../models/vrlw_interaction_spec.dart';
+import '../models/vrlw_lod_level.dart';
 import '../models/vrlw_motion_spec.dart';
 import '../models/vrlw_prototype_binding.dart';
 import '../models/vrlw_resource_index.dart';
@@ -690,6 +691,8 @@ List<VrlwPrototypeBinding> _bindings(
       'audio',
       'collider',
       'castsShadows',
+      'lods',
+      'lodHysteresisMeters',
     }, 'prototype binding');
     final prototype = _identifier(map['prototypeId'], 'bound prototype');
     if (!prototypes.contains(prototype) || !seen.add(prototype)) {
@@ -724,6 +727,7 @@ List<VrlwPrototypeBinding> _bindings(
       if (rawShadows is! bool) _fail('castsShadows must be a boolean.');
       castsShadows = rawShadows;
     }
+    final (lods, lodHysteresisMeters) = _parseLods(map);
     result.add(
       VrlwPrototypeBinding(
         prototypeId: prototype,
@@ -736,10 +740,50 @@ List<VrlwPrototypeBinding> _bindings(
         audio: audio,
         collider: collider,
         castsShadows: castsShadows,
+        lods: lods,
+        lodHysteresisMeters: lodHysteresisMeters,
       ),
     );
   }
   return result;
+}
+
+(List<VrlwLodLevel>, double) _parseLods(Map<String, Object?> map) {
+  if (!map.containsKey('lods')) {
+    if (map.containsKey('lodHysteresisMeters')) {
+      _fail('LOD hysteresis requires declared levels.');
+    }
+    return (const [], 2);
+  }
+  final entries = _list(map['lods'], 'LOD levels', 3);
+  if (entries.length < 2) _fail('LOD requires two or three levels.');
+  final hysteresis = _number(
+    map.containsKey('lodHysteresisMeters') ? map['lodHysteresisMeters'] : 2,
+    'LOD hysteresis meters',
+    0.1,
+    16,
+  );
+  final seen = <String>{};
+  final levels = <VrlwLodLevel>[];
+  for (final raw in entries) {
+    final level = _object(raw, 'LOD level');
+    _keys(level, {'node', 'minDistanceMeters'}, 'LOD level');
+    final node = _identifier(level['node'], 'LOD node');
+    if (!seen.add(node)) _fail('LOD node names must be unique.');
+    final distance = _number(
+      level['minDistanceMeters'],
+      'LOD distance meters',
+      0,
+      1024,
+    );
+    if (levels.isEmpty) {
+      if (distance != 0) _fail('The first LOD must begin at zero meters.');
+    } else if (distance - levels.last.minDistanceMeters <= 2 * hysteresis) {
+      _fail('LOD distances must increase by more than twice the hysteresis.');
+    }
+    levels.add(VrlwLodLevel(node: node, minDistanceMeters: distance));
+  }
+  return (List.unmodifiable(levels), hysteresis);
 }
 
 VrlwColliderSpec _parseCollider(Object? raw) {
@@ -992,6 +1036,11 @@ List<VrlwMotionSpec> _motions(
     final prototype = _identifier(map['prototypeId'], 'motion prototypeId');
     if (!boundPrototypes.contains(prototype)) {
       _fail('Motion requires a bound model prototype.');
+    }
+    if (bindings.any((b) => b.prototypeId == prototype && b.lods.isNotEmpty)) {
+      _fail(
+        'Portable LOD currently requires a static prototype without motion.',
+      );
     }
     final node = _identifier(map['node'], 'motion node');
     if (!targets.add((prototype, node))) {
