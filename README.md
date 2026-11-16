@@ -78,6 +78,16 @@ Consulta los [campos y límites del formato](doc/vrlw_format.md#movimiento-e-int
 el [perfil móvil de Apps](../vrlizate_apps/doc/vrlz_format.md#movimiento-controles-y-audio-de-mundos-v1-beta)
 y la [guía de autoría de la biblioteca](https://github.com/Open-Neom/codebase_vrlw/blob/main/docs/LIVING_WORLDS_MOBILE.md).
 
+## Matriz de compatibilidad y congelamiento para SDK 1.0 (`A09`)
+
+| Subconjunto `.vrlw` (`VRLW0001`, `schemaVersion: 1`) | Estado en SDK `1.0.0` | Versión mínima de lector | Política de compatibilidad |
+| --- | --- | --- | --- |
+| Contenedor base (`chunks` `store`/`deflate` + `sha256`, `origin` `local`/`wgs84-enu`, `prototypes`) | **Estable (`1.0`)** | `vrlizate_world >= 1.0.0` | Congelado byte a byte; fixtures canónicos en `tool/fixtures/forest.vrlw.json` y `test/vrlw_bundle_test.dart`. |
+| Recursos estáticos (`resources`, `prototypeBindings`, `audioEmitters`, `dependencies`) | **Beta acotada (`1.0`)** | `vrlizate_world >= 1.0.0`, `vrlizate_apps >= 1.0.0` | Validación estricta antes de GPU (`test/vrlw_resources_test.dart`). |
+| Movimiento declarativo (`spin`/`bob`/`path`), `interactions` y `environment.dayNightCycle` | **Beta acotada (`1.0`)** | `vrlizate_world >= 1.0.0`, `vrlizate_apps >= 1.0.0` | Omitidos al estar vacíos para preservar bytes previos; cualquier campo desconocido falla cerrado (`FormatException`) en lectores anteriores (`test/vrlw_behaviors_test.dart`). |
+
+- **Política de extensiones y migración:** no se admiten bolsas abiertas de propiedades ni ignorar silenciosamente claves desconocidas. Toda ampliación futura dentro de `VRLW0001` debe ser puramente opt-in (omitida en `toJson()` cuando no se usa) y documentar explícitamente la versión mínima de SDK requerida; cambios incompatibles en cabeceras o semántica de regiones exigirán incrementar `schemaVersion` / magic.
+
 ## Herramientas CLI
 
 ```sh

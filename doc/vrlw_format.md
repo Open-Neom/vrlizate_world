@@ -114,6 +114,13 @@ con el lector actualizado. Un lector anterior a esta ampliación beta rechaza lo
 campos nuevos. La cabecera y `schemaVersion` permanecen en 1; no se declara una
 segunda versión publicada ni compatibilidad con todos los snapshots previos.
 
+### Política congelada de capacidades y extensiones para SDK 1.0 (`A09`)
+
+1. **Versión mínima de lector para el perfil completo actual:** `vrlizate_world ^1.0.0` y `vrlizate_apps ^1.0.0` (VRlizate SDK `1.0.0`).
+2. **Comportamiento fail-closed obligatorio:** el parser rechaza cualquier clave desconocida en raíz, regiones, recursos, bindings, movimientos, interacciones o entorno con `FormatException`. Nunca se degradan silenciosamente capacidades no soportadas.
+3. **Preservación de bytes en documentos básicos:** todo bloque opcional (`resources`, `prototypeBindings`, `motions`, `interactions`, `environment.dayNightCycle`, campos exclusivos de `path`) se omite al serializar cuando no se utiliza, garantizando compatibilidad exacta con hashes previos (verificados en `test/vrlw_bundle_test.dart`, `test/vrlw_resources_test.dart` y `test/vrlw_behaviors_test.dart`, además del fixture `tool/fixtures/forest.vrlw`).
+4. **Regla de evolución:** nuevas tablas opcionales futuras exigirán declarar la versión mínima del SDK en las notas de lanzamiento; cualquier cambio en la cabecera de 16 bytes o en la estructura obligatoria de `chunks` requerirá `schemaVersion: 2` (`VRLW0002`).
+
 ## Movimiento e interacciones declarativos
 
 La fuente y el índice pueden declarar `motions` e `interactions`, con un máximo

@@ -1,7 +1,9 @@
 # Changelog
 
-## 1.0.0 - 2026-10-20
+## 1.0.0 - 2026-11-06
 
+- Freeze the SDK `1.0.0` VRLW `schemaVersion: 1` compatibility matrix, valid/invalid fixture commitments, and fail-closed extension rules in `doc/vrlw_format.md` and `README.md` (`A09`).
+- Deduplicate resident-region comparisons when coalescing per-frame region cache notifications in OpenWorld streaming.
 - Architecture refactor to Open Neom standard layout (`lib/utils/constants/`, `lib/utils/enums/`, `lib/domain/models/`, `lib/domain/services/`) with one class or enum per file and centralized constants (`VrWorldConstants`).
 - Add `VrSharedSpaceAnchor` and `VrSharedSpaceCodec` (`vrlizate://space/...` URI and `VRLZ-SPACE:` share codes) for zero-server peer-to-peer co-located physical/virtual space alignment (`alignPeerPosition`).
 - Add `VrWorldEnvironmentPreset` (`daylight`, `nightSky`, `cyberpunkNeon`, `studioNeutral`, `sunsetHorizon`, `deepSpace`) with factory converters to `VrlwEnvironmentSpec`.
@@ -9,7 +11,7 @@
 - Add `VrWorldBuilder` for fluent declarative construction of a `VrWorldRegistry` and `.vrlw` bundle metadata/chunks.
 - Preserve 100% backward-compatible barrel exports under `lib/src/` and `lib/vrlizate_world.dart`.
 
-## 0.1.0 — Unreleased
+## 0.1.0 - local preview
 
 - Schedule large region decoding in a native isolate with bounded codec output, cancellation/close checks and inline web fallback; keep small regions inline.
 - Add reproducible CPU decode benchmark and an explicitly unimplemented resource/world-dependency v2 proposal.

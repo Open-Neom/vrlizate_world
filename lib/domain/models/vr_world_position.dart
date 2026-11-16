@@ -9,16 +9,21 @@ import '../../utils/constants/vr_world_constants.dart';
 /// cell indices. Larger universes should use separate world instances/origins.
 final class VrWorldPosition {
   factory VrWorldPosition(double x, double y, double z) {
-    for (final (name, value) in [('x', x), ('y', y), ('z', z)]) {
-      if (!value.isFinite || value.abs() > maximumCoordinateMeters) {
-        throw ArgumentError.value(
-          value,
-          name,
-          VrWorldConstants.errCoordinateOutOfBounds,
-        );
-      }
-    }
+    // Coordinate samples need no temporary list or records for validation.
+    _validateCoordinate(x, 'x');
+    _validateCoordinate(y, 'y');
+    _validateCoordinate(z, 'z');
     return VrWorldPosition._(x, y, z);
+  }
+
+  static void _validateCoordinate(double value, String name) {
+    if (!value.isFinite || value.abs() > maximumCoordinateMeters) {
+      throw ArgumentError.value(
+        value,
+        name,
+        VrWorldConstants.errCoordinateOutOfBounds,
+      );
+    }
   }
 
   const VrWorldPosition._(this.x, this.y, this.z);

@@ -1,6 +1,8 @@
 # VRLW v1 beta: recursos espaciales y mundos conectados
 
-Estado: **hoja de ruta de la primera versión en desarrollo, VRLW v1 beta**.
+> **Nota de estado (6 de noviembre de 2026 — VRlizate SDK `1.0.0`):** Este documento se conserva como registro histórico de diseño del 10 de octubre de 2026. Desde entonces, el contenedor VRLW `schemaVersion: 1` incorporó soporte verificado para texturas PNG/JPEG/KTX2, mapas PBR, audio ambiental, colisionadores simplificados, entorno, comportamientos declarativos y dependencias acotadas. Consulta la matriz congelada de compatibilidad y extensiones fail-closed de SDK `1.0.0` en [vrlw_format.md](vrlw_format.md).
+
+Estado original (10 de octubre de 2026): **hoja de ruta de la primera versión en desarrollo, VRLW v1 beta**.
 Actualizada el 10 de octubre de 2026. VRLW todavía no tiene una versión estable
 publicada. La base implementada y las ampliaciones pendientes se distinguen aquí:
 el subconjunto de recursos estáticos y portales locales ya tiene implementación;

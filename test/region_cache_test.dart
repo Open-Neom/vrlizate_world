@@ -132,6 +132,117 @@ void main() {
   );
 
   test(
+    'same-cell movement touches access without loads or change events',
+    () async {
+      var calls = 0, clockCalls = 0;
+      StateError? clockError;
+      final now = DateTime.utc(2026);
+      final cache = VrRegionCache<String>(
+        grid: grid(),
+        provider: (key, _) async {
+          calls++;
+          return data(key);
+        },
+        prefetchRadiusCells: 0,
+        retentionRadiusCells: 0,
+        clock: () {
+          clockCalls++;
+          if (clockError != null) throw clockError;
+          return now;
+        },
+      );
+      addTearDown(cache.dispose);
+      var events = 0;
+      final subscription = cache.changes.listen((_) => events++);
+      addTearDown(subscription.cancel);
+      cache.updatePosition(position(0));
+      await cache.waitForIdle();
+      await Future<void>.delayed(Duration.zero);
+      final initialEvents = events;
+      clockCalls = 0;
+      final movements = [
+        VrWorldPosition(1, -100, 1),
+        VrWorldPosition(9.999, 100, 9.999),
+        VrWorldPosition(0, 0, 0),
+        VrWorldPosition(5, 2, 5),
+      ];
+      for (final movement in movements) {
+        cache.updatePosition(movement);
+      }
+      await Future<void>.delayed(Duration.zero);
+      expect(calls, 1);
+      expect(clockCalls, movements.length);
+      expect(events, initialEvents);
+      expect(cache.snapshot.current, cache.grid.key(0, 0));
+      expect(cache.snapshot.demanded, {cache.grid.key(0, 0)});
+      expect(cache.snapshot.residentBytes, 10);
+
+      final failure = StateError('clock unavailable');
+      clockError = failure;
+      expect(
+        () => cache.updatePosition(movements.first),
+        throwsA(same(failure)),
+      );
+      clockError = null;
+      cache.updatePosition(movements.last);
+      expect(calls, 1);
+      cache.dispose();
+      final callsBeforeDisposedUpdate = clockCalls;
+      expect(() => cache.updatePosition(movements.last), throwsStateError);
+      expect(clockCalls, callsBeforeDisposedUpdate);
+    },
+  );
+
+  test(
+    'cache cell selection matches the grid at signed and fractional boundaries',
+    () async {
+      for (final size in [.1, .3, 10.0, 64.0, 10000000.0]) {
+        final regionGrid = VrRegionGrid(
+          world: world,
+          gridId: 'boundary-$size',
+          cellSizeMeters: size,
+        );
+        final requested = <VrRegionKey, int>{};
+        final cache = VrRegionCache<String>(
+          grid: regionGrid,
+          provider: (key, _) async {
+            requested.update(key, (n) => n + 1, ifAbsent: () => 1);
+            return data(key);
+          },
+          prefetchRadiusCells: 0,
+          retentionRadiusCells: 0,
+          clock: () => DateTime.utc(2026),
+        );
+        addTearDown(cache.dispose);
+        final points = [
+          VrWorldPosition.zero,
+          VrWorldPosition(-0.0, 1, -0.0),
+          VrWorldPosition(-double.minPositive, 0, double.minPositive),
+          for (final factor in [-1.0, -1 + 1e-12, -.25, .25, 1 - 1e-12, 1.0])
+            VrWorldPosition(size * factor, 100, -size * factor),
+          VrWorldPosition(-10000000, 0, 10000000),
+          VrWorldPosition(10000000, 0, -10000000),
+        ];
+        final visited = <VrRegionKey>{};
+        for (final point in points) {
+          final expected = regionGrid.keyAt(point);
+          visited.add(expected);
+          for (var repeat = 0; repeat < 2; repeat++) {
+            cache.updatePosition(point);
+            await cache.waitForIdle();
+            expect(cache.snapshot.current, expected);
+            expect(cache.snapshot.demanded, {expected});
+            expect(cache.snapshot.currentData, isNotNull);
+            expect(cache.snapshot.errors, isEmpty);
+          }
+        }
+        expect(requested.keys.toSet(), visited);
+        expect(requested.values, everyElement(1));
+      }
+    },
+  );
+
+  test(
     'bounded demand at far coordinates never scans intervening cells',
     () async {
       var calls = 0;
@@ -260,6 +371,34 @@ void main() {
     },
   );
 
+  test('same-cell movement refreshes TTL before leaving a region', () async {
+    var time = DateTime.utc(2026);
+    final cache = VrRegionCache<String>(
+      grid: grid(),
+      provider: (key, _) async => data(key),
+      prefetchRadiusCells: 0,
+      retentionRadiusCells: 0,
+      idleTtl: const Duration(seconds: 10),
+      clock: () => time,
+    );
+    addTearDown(cache.dispose);
+    final origin = cache.grid.key(0, 0);
+    cache.updatePosition(position(0));
+    await cache.waitForIdle();
+    time = time.add(const Duration(seconds: 8));
+    cache.updatePosition(VrWorldPosition(9, 5, 9));
+    time = time.add(const Duration(seconds: 1));
+    cache.updatePosition(position(1));
+    await cache.waitForIdle();
+    time = time.add(const Duration(seconds: 3));
+    cache.prune();
+    expect(cache.peek(origin), isNotNull);
+    time = time.add(const Duration(seconds: 6));
+    cache.prune();
+    expect(cache.peek(origin), isNull);
+    expect(cache.snapshot.currentData, isNotNull);
+  });
+
   test(
     'LRU evicts least recently used idle region and read refreshes access',
     () async {
@@ -283,6 +422,37 @@ void main() {
         cache.grid.key(0, 0),
         cache.grid.key(2, 0),
         cache.grid.key(3, 0),
+      });
+    },
+  );
+
+  test(
+    'same-cell access retains LRU priority after leaving the cell',
+    () async {
+      final now = DateTime.utc(2026);
+      final cache = VrRegionCache<String>(
+        grid: grid(),
+        provider: (key, _) async => data(key),
+        prefetchRadiusCells: 0,
+        retentionRadiusCells: 0,
+        maxEntries: 3,
+        clock: () => now,
+      );
+      addTearDown(cache.dispose);
+      for (final cell in [0, 1, 2]) {
+        cache.updatePosition(position(cell));
+        await cache.waitForIdle();
+      }
+      cache.read(cache.grid.key(0, 0));
+      cache.updatePosition(VrWorldPosition(29, 5, 9));
+      for (final cell in [3, 4]) {
+        cache.updatePosition(position(cell));
+        await cache.waitForIdle();
+      }
+      expect(cache.snapshot.resident.keys.toSet(), {
+        cache.grid.key(2, 0),
+        cache.grid.key(3, 0),
+        cache.grid.key(4, 0),
       });
     },
   );

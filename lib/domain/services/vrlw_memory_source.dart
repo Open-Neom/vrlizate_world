@@ -18,7 +18,7 @@ final class VrlwMemorySource implements VrlwByteSource {
   Future<Uint8List> readRange(int offset, int length) async {
     if (_closed) throw StateError(VrWorldConstants.errVrlwSourceClosed);
     VrWorldValidator.validateRange(offset, length, totalLength: _bytes.length);
-    return Uint8List.fromList(_bytes.sublist(offset, offset + length));
+    return _bytes.sublist(offset, offset + length);
   }
 
   @override

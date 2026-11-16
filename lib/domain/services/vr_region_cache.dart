@@ -131,6 +131,16 @@ final class VrRegionCache<T> {
 
   void updatePosition(VrWorldPosition position) {
     _checkOpen();
+    final previous = _current;
+    // Match keyAt's division/floor exactly, reusing the current key until the
+    // horizontal cell changes instead of allocating and validating one per frame.
+    if (previous != null &&
+        (position.x / grid.cellSizeMeters).floor() == previous.x &&
+        (position.z / grid.cellSizeMeters).floor() == previous.z) {
+      final active = _entries[previous];
+      if (active != null) _touch(previous, active);
+      return;
+    }
     final current = grid.keyAt(position);
     if (current == _current) {
       final active = _entries[current];
