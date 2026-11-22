@@ -858,6 +858,14 @@ VrlwEnvironmentSpec? _environment(
     'sunIntensity',
     'castsShadows',
     'dayNightCycle',
+    'fogColor',
+    'fogDensity',
+    'fogMaxOpacity',
+    'fogHeightFalloff',
+    'fogCutoffDistance',
+    'fogSkyColorInfluence',
+    'fogSunInScatter',
+    'animatedWater',
   }, 'environment');
   final byId = {for (final resource in resources) resource.id: resource};
   String? environmentResource;
@@ -908,6 +916,34 @@ VrlwEnvironmentSpec? _environment(
     }
     castsShadows = map['castsShadows'] as bool;
   }
+  final fogColor = map.containsKey('fogColor')
+      ? List<double>.unmodifiable(_vec3(map['fogColor'], 'fogColor', 0, 1))
+      : null;
+  final fogDensity = map.containsKey('fogDensity')
+      ? _number(map['fogDensity'], 'fogDensity', 0, 0.2)
+      : null;
+  final fogMaxOpacity = map.containsKey('fogMaxOpacity')
+      ? _number(map['fogMaxOpacity'], 'fogMaxOpacity', 0, 1)
+      : null;
+  final fogHeightFalloff = map.containsKey('fogHeightFalloff')
+      ? _number(map['fogHeightFalloff'], 'fogHeightFalloff', 0, 2)
+      : null;
+  final fogCutoffDistance = map.containsKey('fogCutoffDistance')
+      ? _number(map['fogCutoffDistance'], 'fogCutoffDistance', 10, 5000)
+      : null;
+  final fogSkyColorInfluence = map.containsKey('fogSkyColorInfluence')
+      ? _number(map['fogSkyColorInfluence'], 'fogSkyColorInfluence', 0, 1)
+      : null;
+  final fogSunInScatter = map.containsKey('fogSunInScatter')
+      ? _number(map['fogSunInScatter'], 'fogSunInScatter', 0, 1)
+      : null;
+  bool? animatedWater;
+  if (map.containsKey('animatedWater')) {
+    if (map['animatedWater'] is! bool) {
+      _fail('environment animatedWater must be a boolean.');
+    }
+    animatedWater = map['animatedWater'] as bool;
+  }
   return VrlwEnvironmentSpec(
     environmentResource: environmentResource,
     skyboxResource: skyboxResource,
@@ -920,6 +956,14 @@ VrlwEnvironmentSpec? _environment(
     dayNightCycle: map.containsKey('dayNightCycle')
         ? _dayNightCycle(map['dayNightCycle'])
         : null,
+    fogColor: fogColor,
+    fogDensity: fogDensity,
+    fogMaxOpacity: fogMaxOpacity,
+    fogHeightFalloff: fogHeightFalloff,
+    fogCutoffDistance: fogCutoffDistance,
+    fogSkyColorInfluence: fogSkyColorInfluence,
+    fogSunInScatter: fogSunInScatter,
+    animatedWater: animatedWater,
   );
 }
 
