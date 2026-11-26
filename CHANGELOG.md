@@ -1,7 +1,8 @@
 # Changelog
 
-## 1.0.0 - 2026-11-06
+## 1.0.0 - 2026-11-25
 
+- Add backward-compatible optional atmospheric height-fog (`fogColor`, `fogDensity`, `fogMaxOpacity`, `fogHeightFalloff`, `fogCutoffDistance`, `fogSkyColorInfluence`, `fogSunInScatter`) and `animatedWater` fields to `VrlwEnvironmentSpec` and `VrlwBundleCodec`.
 - Freeze the SDK `1.0.0` VRLW `schemaVersion: 1` compatibility matrix, valid/invalid fixture commitments, and fail-closed extension rules in `doc/vrlw_format.md` and `README.md` (`A09`).
 - Deduplicate resident-region comparisons when coalescing per-frame region cache notifications in OpenWorld streaming.
 - Architecture refactor to Open Neom standard layout (`lib/utils/constants/`, `lib/utils/enums/`, `lib/domain/models/`, `lib/domain/services/`) with one class or enum per file and centralized constants (`VrWorldConstants`).
